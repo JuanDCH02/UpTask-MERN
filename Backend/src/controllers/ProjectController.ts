@@ -17,24 +17,23 @@ export class ProjectController {
     static GetAllProjects = async (req: Request, res: Response) => {
         try {
             const projects = await Project.find({})
-            res.json(projects)
+            res.json(projects).send('obteniendo proyectos')
         } catch (error) {
             console.log(error)
         }
-        res.send('obteniendo proyectos')
     }
 
     static GetProjectById = async (req: Request, res: Response) => {
         try {
-            const project = await Project.findById(req.params.id)
+            const project = await Project.findById(req.params.id).populate('tasks')
+            
             if(!project) {
                 return res.status(404).json({error: 'Proyecto no encontrado'})
             } 
-            res.json(project)
+            res.status(200).json(project)
         } catch (error) {
             console.log(error)
         }
-        res.send('obteniendo proyectos')
     }
 
     static UpadateProject = async (req: Request, res: Response) => {
