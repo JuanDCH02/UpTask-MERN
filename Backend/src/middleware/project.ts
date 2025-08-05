@@ -10,13 +10,13 @@ declare global {
     }
 }
 
-export async function validateProjectExists(req:Request, res: Response, next: NextFunction) {
+export async function projectExists(req:Request, res: Response, next: NextFunction) {
     try {
         const project = await Project.findById(req.params.projectId)
         if(!project) {
             return res.status(404).json({error: 'Proyecto no encontrado'})
         }
-        //add the project into the req to use it in controller as a param
+        //add the project into req
         req.project = project
         next()
     } catch (error) {

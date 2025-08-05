@@ -15,7 +15,7 @@ export interface ITask extends Document  {
     taskName: string,
     description: string,
     project: Types.ObjectId,
-    taskStatus: TaskStatus
+    status: TaskStatus
 }
 //type Mongoose
 const TaskSchema: Schema = new Schema({
