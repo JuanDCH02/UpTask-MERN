@@ -35,6 +35,7 @@ export default function AppLayout() {
         //  }}
         swipeDirections={['right', 'bottom']}
         position="bottom-right"
+        duration={3000}
     />
     </>
   )
