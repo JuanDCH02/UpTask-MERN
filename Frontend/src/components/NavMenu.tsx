@@ -7,7 +7,7 @@ export default function NavMenu() {
     <div className="relative">
       {/* Botón hamburguesa */}
       <button
-        className="bg-purple-500 flex flex-col justify-center items-center w-10 h-10 rounded focus:outline-none group"
+        className="bg-purple-500 cursor-pointer flex flex-col justify-center items-center w-10 h-10 rounded focus:outline-none group"
         onClick={() => setOpen(!open)}
         aria-label="Abrir menú"
       >

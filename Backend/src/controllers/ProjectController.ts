@@ -8,7 +8,7 @@ export class ProjectController {
         
         try {
             await project.save()
-            res.send('proyecto creado')
+            res.send('Proyecto Creado Correctamente')
         } catch (error) {
             console.log(error)
         }
@@ -17,7 +17,7 @@ export class ProjectController {
     static GetAllProjects = async (req: Request, res: Response) => {
         try {
             const projects = await Project.find({})
-            res.json(projects).send('obteniendo proyectos')
+            res.json(projects).send('Obteniendo Proyectos')
         } catch (error) {
             console.log(error)
         }
@@ -46,7 +46,7 @@ export class ProjectController {
             project.clientName = req.project.clientName
             project.description = req.project.description
             await project.save()
-            res.send('proyecto actualizado')
+            res.send('Proyecto Actualizado')
         } catch (error) {
             console.log(error)
         }
@@ -60,7 +60,7 @@ export class ProjectController {
                 return res.status(404).json({error: 'Proyecto no encontrado'})
             } 
             await project.deleteOne()
-            res.send('Proyecto eliminado')
+            res.send('Proyecto Eliminado')
         } catch (error) {
             console.log(error)
         }
