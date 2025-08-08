@@ -1,7 +1,6 @@
 import { isAxiosError } from "axios"
 import { DashboardProjectsSchema, type ProjectFormData } from "../types"
 import api from "@/lib/axios"
-import { safeParse } from "zod"
 
 export async function createProject(formData: ProjectFormData) {
     try {

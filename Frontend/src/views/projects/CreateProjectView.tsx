@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
+import { BsFillCheckSquareFill } from 'react-icons/bs';
 import ProjectForm from "@/components/projects/ProjectForm"
 import type { ProjectFormData } from "@/types/index"
 import { createProject } from "@/services/projectApi"
@@ -21,9 +22,10 @@ export default function CreateProjectView() {
             toast.error(error.message)
         },
         onSuccess: (data, formData) => {
-            toast.success(data, {description:formData.projectName}) 
+            toast.success(data, {description:formData.projectName, icon:<BsFillCheckSquareFill/>}) 
             navigate('/')
         }
+        
     })
 
     const handleForm = async (formData: ProjectFormData) => mutate(formData)
