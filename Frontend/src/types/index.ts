@@ -3,7 +3,7 @@ import {z} from 'zod'
 //PROJECTS
 
 export const ProjectSchema = z.object({
-    id:z.string(),
+    _id:z.string(),
     projectName:z.string(),
     clientName:z.string(),
     description:z.string(),
@@ -11,6 +11,7 @@ export const ProjectSchema = z.object({
 
 export const DashboardProjectsSchema = z.array(
     ProjectSchema.pick({
+        _id:true,
         projectName:true,
         clientName:true,
         description:true

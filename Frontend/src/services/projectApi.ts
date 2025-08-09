@@ -17,6 +17,7 @@ export async function getProjects() {
         const {data} = await api('/projects')
         const result = DashboardProjectsSchema.safeParse(data)
         if(result.success) return result.data
+        return []
     } catch (error) {
         if(isAxiosError(error) && error.response){
             throw new Error(error.response.data.error)
