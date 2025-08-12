@@ -1,15 +1,29 @@
 import { Fragment } from 'react'
 import { Menu, Transition, MenuItem, MenuItems, MenuButton } from '@headlessui/react'
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { DeleteProject, getProjects } from "@/services/projectApi"
 import { Link } from "react-router-dom"
-import { useQuery } from "@tanstack/react-query"
-import { getProjects } from "@/services/projectApi"
+import { toast } from 'sonner'
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
+import { BsFillTrashFill } from 'react-icons/bs';
 
 export default function () {
 
     const {data, isError, isLoading} = useQuery({
         queryKey: ['projects'],
         queryFn: getProjects
+    })
+    const queryClient = useQueryClient()
+    const {mutate} = useMutation({
+        mutationFn: DeleteProject,
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSuccess: (data) => {
+            toast(data,  {icon:<BsFillTrashFill/>}) 
+            //force a refetch
+            queryClient.invalidateQueries({queryKey:['projects']})
+        },
     })
 
     if(data)return (
@@ -69,7 +83,7 @@ export default function () {
                                 <button 
                                     type='button' 
                                     className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                    onClick={() => {} }
+                                    onClick={() => {mutate(project._id)} }
                                     >Eliminar Proyecto
                                 </button>
                             </MenuItem>
