@@ -22,30 +22,33 @@ router.post('/',
 
 router.get('/', ProjectController.GetAllProjects)
 
-router.get('/:id', 
-    param('id')
+router.get('/:projectId', 
+    param('projectId')
         .isMongoId().withMessage('ID no valido'),
     handleInputErrors,
+    projectExists,
     ProjectController.GetProjectById
 )
 
-router.put('/:id', 
+router.put('/:projectId', 
     body('projectName')
         .notEmpty().withMessage('El nombre del proyecto es obligatorio'),
     body('clientName')
         .notEmpty().withMessage('El nombre del cliente es obligatorio'),
     body('description')
         .notEmpty().withMessage('La descripcion es obligatoria'),
-    param('id')
+    param('projectId')
         .isMongoId().withMessage('ID no valido'),
     handleInputErrors,
+    projectExists,
     ProjectController.UpadateProject
 )
 
-router.delete('/:id',
-    param('id')
+router.delete('/:projectId',
+    param('projectId')
         .isMongoId().withMessage('ID no valido'),
     handleInputErrors,
+    projectExists,
     ProjectController.DeleteProject
 )
 

@@ -1,15 +1,16 @@
-import { Outlet } from "react-router-dom"
+import { Navigate, Outlet, useNavigate } from "react-router-dom"
 import Logo from "@/components/Logo"
 import NavMenu from "@/components/NavMenu"
 import { Toaster } from "sonner"
 
 export default function AppLayout() {
+  const navigate = useNavigate();
   return (
     <>
     <header className="bg-gray-800 py-5">
         <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-around items-center">
 
-            <div className="w-64 flex items-center gap-14">
+            <div className="w-64 flex items-center gap-14 cursor-pointer" onClick={() => navigate('/')}>
                 <Logo />
             </div>
                 <NavMenu />

@@ -14,12 +14,12 @@ export async function projectExists(req:Request, res: Response, next: NextFuncti
     try {
         const project = await Project.findById(req.params.projectId)
         if(!project) {
-            return res.status(404).json({error: 'Proyecto no encontrado'})
+            return res.status(404).json({error: 'Proyecto No Encontrado'})
         }
         //add the project into req
         req.project = project
         next()
     } catch (error) {
-        res.status(500).json({error: 'hubo un error'})
+        res.status(500).json({error: 'Hubo un error'})
     }
 }

@@ -16,8 +16,8 @@ export class ProjectController {
 
     static GetAllProjects = async (req: Request, res: Response) => {
         try {
-            const projects = await Project.find({})
-            res.json(projects).send('Obteniendo Proyectos')
+            const projects = await Project.find()
+            res.json(projects)
         } catch (error) {
             console.log(error)
         }
@@ -25,7 +25,7 @@ export class ProjectController {
 
     static GetProjectById = async (req: Request, res: Response) => {
         try {
-            const project = await Project.findById(req.params.id).populate('tasks')
+            const project = await Project.findById(req.params.projectId).populate('tasks')
             
             if(!project) {
                 return res.status(404).json({error: 'Proyecto no encontrado'})
@@ -38,24 +38,23 @@ export class ProjectController {
 
     static UpadateProject = async (req: Request, res: Response) => {
         try {
-            const project = await Project.findById(req.params.id)
+            const project = await Project.findById(req.params.projectId,)
             if(!project) {
                 return res.status(404).json({error: 'Proyecto no encontrado'})
             } 
-            project.projectName = req.project.projectName
-            project.clientName = req.project.clientName
-            project.description = req.project.description
+            project.projectName = req.body.projectName
+            project.clientName = req.body.clientName
+            project.description = req.body.description
             await project.save()
             res.send('Proyecto Actualizado')
         } catch (error) {
             console.log(error)
         }
-        res.send('obteniendo proyectos')
     }
 
     static DeleteProject = async (req: Request, res: Response) => {
         try {
-            const project = await Project.findById(req.params.id)
+            const project = await Project.findById(req.params.projectId)
             if(!project) {
                 return res.status(404).json({error: 'Proyecto no encontrado'})
             } 
