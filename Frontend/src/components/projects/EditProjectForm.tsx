@@ -42,7 +42,7 @@ export default function EditProjectForm({data, projectId} : EditProjectFormProps
     return (
     <>
     <div className="max-w-3xl mx-auto">
-        <h1 className="text-5xl font-black">Editar Proyecto</h1>
+        <h1 className="text-5xl font-black text-shadow-lg/20">Editar Proyecto</h1>
         <p className="text-2xl font-light">Llena el siguiente formulario para editar el proyecto</p>
         <nav className="my-5">
             <Link to='/' 
