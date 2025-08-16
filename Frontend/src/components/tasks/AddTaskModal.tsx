@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type {TaskFormData } from '@/types/index';
 import TaskForm from './TaskForm';
 import { createTask } from '@/services/TaskApi';
@@ -28,6 +28,7 @@ export default function AddTaskModal() {
     const params = useParams()
     const projectId = params.projectId!
 
+    const queryClient = useQueryClient()
     const {mutate} = useMutation({
         mutationFn: createTask,
         onError:(error)=> {
@@ -35,6 +36,7 @@ export default function AddTaskModal() {
         },
         onSuccess:(data, {formData})=> {
             toast(data, {description:formData.taskName, icon:<BsClipboard2CheckFill/>})
+            queryClient.invalidateQueries({queryKey:['editProject', projectId]})
             reset()
         }
     })
