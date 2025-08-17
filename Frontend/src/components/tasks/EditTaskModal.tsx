@@ -1,10 +1,48 @@
 import { Fragment } from 'react';
-import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
-import { useNavigate } from 'react-router-dom';
+import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle, Description } from '@headlessui/react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import type { Task, TaskFormData } from '@/types/index';
+import TaskForm from './TaskForm';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { updateTask } from '@/services/TaskApi';
+import { toast } from 'sonner';
+import { FaPenToSquare } from 'react-icons/fa6';
 
-export default function EditTaskModal() {
+type EditTaskModalProps = {
+    data:Task
+    taskId:Task['_id']
+}
 
+
+export default function EditTaskModal({data, taskId} : EditTaskModalProps) {
+
+    const queryClient = useQueryClient()
     const navigate = useNavigate()
+    const params = useParams()
+    const projectId = params.projectId!
+
+    const {register, handleSubmit, reset, formState: {errors} } = useForm<TaskFormData>({defaultValues:{
+        taskName: data.taskName,
+        description: data.description
+    }})
+    const {mutate} = useMutation({
+        mutationFn: updateTask,
+        onError:(error)=> {
+            toast.error(error.message)
+        },
+        onSuccess:(data, {formData})=> {
+            queryClient.invalidateQueries({queryKey:['projects']})
+            queryClient.invalidateQueries({queryKey:['editProject', projectId]})
+            navigate('')
+            toast(data, {description:formData.taskName, icon:<FaPenToSquare/>}) 
+        }
+    })
+    const handleEditTask = (formData: TaskFormData) => {
+        const data = { formData, projectId, taskId }
+        mutate(data)
+    }
+
     return (
         <Transition appear show={true} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={() => navigate('',{replace: true} ) }>
@@ -38,14 +76,19 @@ export default function EditTaskModal() {
                                     >Editar Tarea
                                 </DialogTitle>
 
-                                <p className="text-xl font-bold">Realiza cambios a una tarea en {''}
-                                    <span className="text-fuchsia-600">este formulario</span>
+                                <p className="text-xl font-bold">Realiza cambios a una tarea en
+                                    <span className="text-fuchsia-600"> este formulario</span>
                                 </p>
 
                                 <form
                                     className="mt-10 space-y-3"
+                                    onSubmit={handleSubmit(handleEditTask)}
                                     noValidate
                                 >
+                                    <TaskForm
+                                        register={register}
+                                        errors={errors}
+                                    />
                                     <input
                                         type="submit"
                                         className=" bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer"

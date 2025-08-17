@@ -30,8 +30,8 @@ export default function EditProjectForm({data, projectId} : EditProjectFormProps
             //when made changes to a project, must do a new query
             queryClient.invalidateQueries({queryKey:['projects']})
             queryClient.invalidateQueries({queryKey:['editProject', projectId]})
-            toast(data, {description:formData.projectName, icon:<FaPenToSquare/>}) 
             navigate('/')
+            toast(data, {description:formData.projectName, icon:<FaPenToSquare/>}) 
         }
     })
     const handleForm = (formData: ProjectFormData) =>{
