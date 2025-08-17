@@ -13,7 +13,7 @@ export default function ProjectDetailView() {
     //contains the param from the url
     const {projectId} = useParams()
     const {data, isError, isLoading} = useQuery({
-        queryKey: ['editProject', projectId],
+        queryKey: ['project', projectId],
         queryFn: () => getProjectById(projectId!),
     })
     if(isLoading) return 'cargando...'
