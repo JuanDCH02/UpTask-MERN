@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 import { getProjectById } from "@/services/projectApi"
 import AddTaskModal from "@/components/tasks/AddTaskModal"
 import TaskList from "@/components/tasks/TaskList"
+import EditTaskData from "@/components/tasks/EditTaskData"
 
 
 export default function ProjectDetailView() {
@@ -34,6 +35,7 @@ export default function ProjectDetailView() {
             tasks={data.tasks}
         />
         <AddTaskModal/>
+        <EditTaskData/>
     </>
     )
    
