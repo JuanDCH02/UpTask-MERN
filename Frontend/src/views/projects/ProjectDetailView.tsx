@@ -4,6 +4,7 @@ import { getProjectById } from "@/services/projectApi"
 import AddTaskModal from "@/components/tasks/AddTaskModal"
 import TaskList from "@/components/tasks/TaskList"
 import EditTaskData from "@/components/tasks/EditTaskData"
+import TaskModalDetail from "@/components/tasks/TaskModalDetail"
 
 
 export default function ProjectDetailView() {
@@ -34,8 +35,9 @@ export default function ProjectDetailView() {
         <TaskList
             tasks={data.tasks}
         />
-        <AddTaskModal/>
-        <EditTaskData/>
+        <AddTaskModal />
+        <EditTaskData />
+        <TaskModalDetail />
     </>
     )
    

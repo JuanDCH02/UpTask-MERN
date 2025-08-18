@@ -24,7 +24,7 @@ export class TaskController {
             const tasks = await Task.find({project: req.project.id}).populate('project')
             res.status(200).json(tasks)
         } catch (error) {
-            res.status(500).json({error: 'Hubo un error'})
+            res.status(400).json({error: 'Hubo un error'})
         }
     }
     static GetTasksById = async (req: Request, res: Response) => {
@@ -34,7 +34,7 @@ export class TaskController {
             }
             res.status(200).json(req.task)
         } catch (error) {
-            res.status(500).json({error: 'Hubo un error'})
+            res.status(404).json({error: 'Tarea No Encontrada'})
         }
     }
     static UpdateTask = async (req: Request, res: Response) => {
