@@ -36,7 +36,7 @@ export default function AddTaskModal() {
         },
         onSuccess:(data, {formData})=> {
             toast(data, {description:formData.taskName, icon:<BsClipboard2CheckFill/>})
-            queryClient.invalidateQueries({queryKey:['editProject', projectId]})
+            queryClient.invalidateQueries({queryKey:['project', projectId]})
             reset()
         }
     })

@@ -32,10 +32,11 @@ export default function EditTaskModal({data, taskId} : EditTaskModalProps) {
             toast.error(error.message)
         },
         onSuccess:(data, {formData})=> {
-            queryClient.invalidateQueries({queryKey:['projects']})
-            queryClient.invalidateQueries({queryKey:['editProject', projectId]})
+            queryClient.invalidateQueries({queryKey:['project', projectId]})
+            queryClient.invalidateQueries({queryKey:['task', taskId]})
             navigate('')
             toast(data, {description:formData.taskName, icon:<FaPenToSquare/>}) 
+            reset()
         }
     })
     const handleEditTask = (formData: TaskFormData) => {

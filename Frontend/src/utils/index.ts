@@ -8,3 +8,10 @@ export function formatDate(str:string){
     })
     return formatter.format(date)
 }
+export const statusTranslation : {[key: string]: string} = {
+    pending: 'Pendiente',
+    on_hold: 'En espera',
+    in_progress: 'En Proceso',
+    under_review: 'Bajo Revisión',
+    completed: 'Completada',
+}

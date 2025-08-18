@@ -5,6 +5,8 @@ import { z} from 'zod'
 export const taskStatusSchema = z.enum(["pending" , "on_hold" , "in_progress" ,
     "under_review" , "completed"])
 
+export type TaskStatus = z.infer<typeof taskStatusSchema>
+
 export const TaskSchema = z.object({
     _id:z.string(),
     taskName:z.string(),
