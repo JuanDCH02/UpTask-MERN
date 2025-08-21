@@ -20,6 +20,5 @@ export class AuthEmail {
                 <p>Este token solo dura 15 minutos</p>
                 `
             })
-        console.log('Mensaje enviado', info.messageId)
     }
 }
