@@ -1,5 +1,6 @@
 import Logo from "@/components/Logo"
 import { Outlet } from "react-router-dom"
+import { Toaster } from "sonner"
 
 export default function AuthLayout() {
     return (
@@ -14,6 +15,11 @@ export default function AuthLayout() {
 
                 </div>
             </div>
+            <Toaster
+                swipeDirections={['right', 'bottom']}
+                position="bottom-right"
+                duration={3000}
+            />
 
         </>
     )
