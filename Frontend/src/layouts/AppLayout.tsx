@@ -27,13 +27,6 @@ export default function AppLayout() {
         </p>
     </footer>
     <Toaster
-        //  icons={{
-        //      success: <SuccessIcon />,
-        //      info: <InfoIcon />,
-        //      warning: <WarningIcon />,
-        //      error: <ErrorIcon />,
-        //      loading: <LoadingIcon />,
-        //  }}
         swipeDirections={['right', 'bottom']}
         position="bottom-right"
         duration={3000}
