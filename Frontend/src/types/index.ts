@@ -11,6 +11,7 @@ const AuthSchema = z.object({
 
 type Auth = z.infer<typeof AuthSchema>
 export type UserLoginForm = Pick<Auth, 'email'|'password'>
+export type UserRegistrationForm = Pick<Auth, 'email'|'password'|'name'|'password_confirmation'>
 
 //TASKS
 
