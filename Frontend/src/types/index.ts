@@ -4,7 +4,7 @@ import { z} from 'zod'
 
 const AuthSchema = z.object({
     name: z.string(),
-    email: [z.string(), z.email()],
+    email: z.string().email(),
     password: z.string(),
     password_confirmation: z.string(),
 })
@@ -12,6 +12,7 @@ const AuthSchema = z.object({
 type Auth = z.infer<typeof AuthSchema>
 export type UserLoginForm = Pick<Auth, 'email'|'password'>
 export type UserRegistrationForm = Pick<Auth, 'email'|'password'|'name'|'password_confirmation'>
+export type RequestConfirmationCodeForm = Pick<Auth, 'email'>
 
 //TASKS
 

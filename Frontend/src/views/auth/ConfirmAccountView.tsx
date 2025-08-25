@@ -39,19 +39,19 @@ export default function ConfirmAccountView() {
             </label>
             <div className="flex justify-center gap-3">
                 <PinInput value={token} onChange={handleChange} onComplete={handleComplete}>
-                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 text-white"/>
-                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 text-white"/>
-                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 text-white"/>
-                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 text-white"/>
-                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 text-white"/>
-                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 text-white"/>
+                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 font-semibold text-center"/>
+                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 font-semibold text-center"/>
+                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 font-semibold text-center"/>
+                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 font-semibold text-center"/>
+                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 font-semibold text-center"/>
+                    <PinInputField className="w-10 h-10 p-3 rounded-lg border border-gray-300 font-semibold text-center"/>
                 </PinInput>
             </div>
         </form>
 
         <nav className="mt-10 flex flex-col space-y-4">
             <Link
-            to='/auth/new-code'
+            to='/auth/request-code'
             className="text-center text-gray-300 font-normal"
                 >Solicitar un nuevo Código
             </Link>

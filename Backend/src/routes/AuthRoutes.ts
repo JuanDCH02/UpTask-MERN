@@ -11,7 +11,7 @@ router.post('/create-account',
     body('name')
         .notEmpty().withMessage('El nombre es obligatorio'),
     body('password')
-        .isLength({min:8}).withMessage('La contraseña debe ser de al menos 8 caracteres'),
+        .isLength({min:8}).withMessage('La contraseña debe ser de al menos 8 carácteres'),
     body('password_confirmation')
         .custom((value, {req}) => {
             if(value != req.body.password){
@@ -20,7 +20,7 @@ router.post('/create-account',
             return true
         }),
     body('email')
-        .isEmail().withMessage('El email no es valido'),
+        .isEmail().withMessage('El email no es válido'),
         handleInputErrors,
     AuthController.createAccount
 )
@@ -34,9 +34,15 @@ router.post('/login',
     body('password')
         .notEmpty().withMessage('La contraseña es obligatoria'),
      body('email')
-        .isEmail().withMessage('El email no es valido'),
+        .isEmail().withMessage('El email no es válido'),
         handleInputErrors,
     AuthController.login
+)
+router.post('/request-code',
+     body('email')
+        .isEmail().withMessage('El email no es válido'),
+        handleInputErrors,
+    AuthController.requestConfirmationCode
 )
 
 

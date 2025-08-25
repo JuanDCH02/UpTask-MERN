@@ -15,8 +15,19 @@ export async function createAccount(formData: UserRegistrationForm) {
 }
 export async function confirmAccount(token: string) {
     try {
-        const url = '/auth/corfirm-account'
-        const {data} = await api.post(url, token)
+        const url = '/auth/confirm-account'
+        const {data} = await api.post(url, {token})
+        return data
+    } catch (error) {
+        if(isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error)
+        }
+    }
+}
+export async function requestConfirmationCode(email: string) {
+    try {
+        const url = '/auth/request-code'
+        const {data} = await api.post(url, email)
         return data
     } catch (error) {
         if(isAxiosError(error) && error.response){
