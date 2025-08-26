@@ -24,10 +24,10 @@ export async function confirmAccount(token: string) {
         }
     }
 }
-export async function requestConfirmationCode(email: string) {
+export async function requestConfirmationCode({email}: {email:string}) {
     try {
         const url = '/auth/request-code'
-        const {data} = await api.post(url, email)
+        const {data} = await api.post(url, {email})
         return data
     } catch (error) {
         if(isAxiosError(error) && error.response){

@@ -22,7 +22,7 @@ export default function RegisterView() {
             reset()
         },
     })
-    const handleRequestCode = ({email}: RequestConfirmationCodeForm) => mutate(email)
+    const handleRequestCode = (data: RequestConfirmationCodeForm) => mutate(data)
 
     return (
         <>

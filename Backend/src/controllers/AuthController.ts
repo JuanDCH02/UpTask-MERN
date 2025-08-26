@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import User from "../models/User";
 import Token from "../models/Token";
-import { checkPassword, createAndSendToken, hashPassword } from "../utils";
+import { changePassword, checkPassword, createToken, hashPassword, sendToken } from "../utils";
 
 export class AuthController {
 
@@ -16,7 +16,8 @@ export class AuthController {
             const user = new User(req.body) 
             //hash password
             user.password = await hashPassword(password)
-            const token = await createAndSendToken(user)
+            const token = createToken(user)
+            sendToken(user, token)
             //save in db
             await Promise.allSettled( [user.save(), token.save()] )
             res.send('Cuenta creada. Revisa tu email para confirmarla')
@@ -33,7 +34,8 @@ export class AuthController {
             if(!user) return res.status(409).json({error:'El usuario NO a está registrado'})
             if(user.confirmed) return res.status(403).json({error:'El usuario ya está confirmado'})
 
-            const token = await createAndSendToken(user)
+            const token = createToken(user)
+            sendToken(user, token)
             await Promise.allSettled( [user.save(), token.save()] )
             res.send('Se envió un nuevo token a tu email')
 
@@ -65,7 +67,8 @@ export class AuthController {
             if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
 
             if (!user.confirmed) {
-                const token = await createAndSendToken(user)
+                const token = createToken(user)
+                sendToken(user, token)
                 await token.save()
                 return res.status(401).json({ error: 'La cuenta NO ha sido confirmada, enviamos un e-mail de confirmación!' })
             }
@@ -75,9 +78,25 @@ export class AuthController {
             }
       
             res.send('Autenticado')
-        }   catch (error) {
+        }  catch (error) {
                 res.status(500).json({ error: 'Error al hacer login' })
         }
-}
+    }
+    static forgotPassword = async (req:Request, res:Response)=> {
+        try {
+            const { email} = req.body
+            const user = await User.findOne({email})
+
+            if(!user) return res.status(409).json({error:'El usuario NO a está registrado'})
+
+            const token = createToken(user)
+            changePassword(user, token)
+            await token.save()
+            res.send('Se envió un nuevo token a tu email')
+
+        } catch (error) {
+            res.status(500).json({error:'Error al registrar usuario'})
+        }
+    }
 
 }
