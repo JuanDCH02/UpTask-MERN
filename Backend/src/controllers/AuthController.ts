@@ -58,24 +58,26 @@ export class AuthController {
             res.status(500).json({error:'Error al registrar usuario'})
         }
     }
-    static login = async (req:Request, res:Response)=>{
+    static login = async (req: Request, res: Response) => {
         try {
-            const {email, password} = req.body
-            const user = await User.findOne({email})
-            //cheking user status
-            if(!user ) return res.status(404).json({error:'Usuario no encontrado'})
-            if(!user.confirmed ){
+            const { email, password } = req.body
+            const user = await User.findOne({ email })
+            if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
+
+            if (!user.confirmed) {
                 const token = await createAndSendToken(user)
                 await token.save()
-                return res.status(401).json({error:'La cuenta NO ha sido confirmada, enviamos un e-mail de confirmacion!'})
-            } 
-            //cheking password
-            const passwCorrect = checkPassword(password, user.password)
-            if(!passwCorrect) res.status(401).json({error:'Contraseña incorrecta'})
+                return res.status(401).json({ error: 'La cuenta NO ha sido confirmada, enviamos un e-mail de confirmación!' })
+            }
+            const passwCorrect = await checkPassword(password, user.password)
+            if (!passwCorrect) {
+                return res.status(401).json({ error: 'Contraseña incorrecta' })
+            }
+      
             res.send('Autenticado')
-
-        } catch (error) {
-            res.status(500).json({error:'Error al hacer login'})
+        }   catch (error) {
+                res.status(500).json({ error: 'Error al hacer login' })
         }
-    }
+}
+
 }
