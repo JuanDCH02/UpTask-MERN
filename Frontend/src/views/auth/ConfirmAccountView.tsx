@@ -18,12 +18,8 @@ export default function ConfirmAccountView() {
             toast.success(data) 
         },
     })
-    const handleChange = (token: string) => {
-        setToken(token)
-    }
-    const handleComplete = (token: string) => {
-        mutate(token)
-    }
+    const handleChange = (token: string) => setToken(token)
+    const handleComplete = (token: string) => mutate(token)
 
     return (
     <>

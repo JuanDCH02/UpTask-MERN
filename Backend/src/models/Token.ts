@@ -8,7 +8,7 @@ export interface IToken extends Document {
 const tokenSchema : Schema = new Schema({
     token: { type: String, required:true },
     user: { type: Types.ObjectId, ref:'User' },
-    created: { type: Date, default:Date.now(), expires:'15m' },
+    expiresAt: { type: Date, default:Date.now(), expires:'15m' },
 })
 
 const Token = mongoose.model<IToken>('Token', tokenSchema)

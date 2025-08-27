@@ -62,16 +62,18 @@ export class AuthController {
     }
     static login = async (req: Request, res: Response) => {
         try {
+                //validate user exists
             const { email, password } = req.body
             const user = await User.findOne({ email })
             if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
-
+                //validate its confirmed
             if (!user.confirmed) {
                 const token = createToken(user)
                 sendToken(user, token)
                 await token.save()
                 return res.status(401).json({ error: 'La cuenta NO ha sido confirmada, enviamos un e-mail de confirmación!' })
             }
+                //compare passwds
             const passwCorrect = await checkPassword(password, user.password)
             if (!passwCorrect) {
                 return res.status(401).json({ error: 'Contraseña incorrecta' })
@@ -84,15 +86,49 @@ export class AuthController {
     }
     static forgotPassword = async (req:Request, res:Response)=> {
         try {
+                //validate user exists
             const { email} = req.body
             const user = await User.findOne({email})
 
             if(!user) return res.status(409).json({error:'El usuario NO a está registrado'})
-
+                //create a new token
             const token = createToken(user)
             changePassword(user, token)
             await token.save()
             res.send('Se envió un nuevo token a tu email')
+
+        } catch (error) {
+            res.status(500).json({error:'Error al registrar usuario'})
+        }
+    }
+    static validateToken = async (req:Request, res:Response)=> {
+        try {
+                //check if the token is available
+            const {token} = req.body
+
+            const tokenExists = await Token.findOne({token})
+            if(!tokenExists) res.status(404).json({error:'Token no válido'})
+           
+            res.status(200).send('Token válido. Crea tu nueva contraseña')
+
+        } catch (error) {
+            res.status(500).json({error:'Error al registrar usuario'})
+        }
+    }
+    static updatePasswordWithToken = async (req:Request, res:Response)=> {
+        try {
+                //check if the token is available
+            const {token} = req.params
+            const {password} = req.body
+
+            const tokenExists = await Token.findOne({token})
+            if(!tokenExists) res.status(404).json({error:'Token no válido'})
+                //search the user and replace the password
+            const user = await User.findById(tokenExists.user)
+            user.password = await hashPassword(password)
+                //save password change and delete token
+            await Promise.allSettled( [user.save(), tokenExists.deleteOne() ])
+            res.status(200).send('Contraseña modificada con éxito')
 
         } catch (error) {
             res.status(500).json({error:'Error al registrar usuario'})
