@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import User from "../models/User";
 import Token from "../models/Token";
-import { changePassword, checkPassword, createToken, hashPassword, sendToken } from "../utils";
+import { changePassword, checkPassword, createToken, generateJWT, hashPassword, sendToken } from "../utils";
 
 export class AuthController {
 
@@ -78,8 +78,8 @@ export class AuthController {
             if (!passwCorrect) {
                 return res.status(401).json({ error: 'Contraseña incorrecta' })
             }
-      
-            res.send('Autenticado')
+            const token = generateJWT(user.id)
+            res.send(token)
         }  catch (error) {
                 res.status(500).json({ error: 'Error al hacer login' })
         }

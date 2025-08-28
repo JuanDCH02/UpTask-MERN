@@ -3,9 +3,11 @@ import Token from "../models/Token"
 import type { IToken } from "../models/Token"
 import { AuthEmail } from "../emails/AuthEmails"
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { Types } from "mongoose"
 
 
-
+    //TOKENS
 export const createToken = (user: IUser) => {
     //generate token
     const token = new Token()
@@ -28,9 +30,19 @@ export const changePassword = (user: IUser, token: IToken) => {
     })
 }
 
+    //PASSWORD
 export const hashPassword = async(password: string)=> {
     return await bcrypt.hash(password, 10)
 }
 export const checkPassword = async (enteredPassword: string, hashedPassword: string) => {
   return await bcrypt.compare(enteredPassword, hashedPassword)
+}
+
+    //JWT
+
+export const generateJWT = (payload: Types.ObjectId)=> {
+    const token = jwt.sign({ id: payload }, process.env.JWT_SECRET, {
+        expiresIn:'1m'
+    })
+    return token
 }
