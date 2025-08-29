@@ -17,7 +17,12 @@ export class ProjectController {
 
     static GetAllProjects = async (req: Request, res: Response) => {
         try {
-            const projects = await Project.find().populate('tasks')
+                //return the projects this user is manager
+            const projects = await Project.find({
+                $or:[
+                    { manager:{$in: req.user.id} }
+                ]
+            }).populate('tasks')
             return res.json(projects)
         } catch (error) {
             console.log(error)
@@ -31,7 +36,10 @@ export class ProjectController {
             if(!project) {
                 return res.status(404).json({error: 'Proyecto no encontrado'})
             } 
-            res.status(200).json(project)
+            if(project.manager.toString() !== req.user.id.toString()) {
+                return res.json({error: 'Falta de permisos'})
+            }
+            return res.status(200).json(project)
         } catch (error) {
             console.log(error)
         }
@@ -43,6 +51,9 @@ export class ProjectController {
             if(!project) {
                 return res.status(404).json({error: 'Proyecto no encontrado'})
             } 
+            if(project.manager.toString() !== req.user.id.toString()) {
+                return res.json({error: 'Falta de permisos'})
+            }
             project.projectName = req.body.projectName
             project.clientName = req.body.clientName
             project.description = req.body.description
@@ -59,6 +70,9 @@ export class ProjectController {
             if(!project) {
                 return res.status(404).json({error: 'Proyecto no encontrado'})
             } 
+            if(project.manager.toString() !== req.user.id.toString()) {
+                return res.json({error: 'Falta de permisos'})
+            }
             await project.deleteOne()
             return res.send('Proyecto eliminado')
         } catch (error) {
