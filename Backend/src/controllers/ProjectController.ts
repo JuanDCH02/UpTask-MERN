@@ -5,7 +5,8 @@ export class ProjectController {
 
     static CreateProject = async (req: Request, res: Response) => {
         const project = new Project(req.body)
-        
+            //assign a manager
+        project.manager = req.user.id
         try {
             await project.save()
             return res.send('Proyecto creado correctamente')
