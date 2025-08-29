@@ -39,10 +39,9 @@ export const checkPassword = async (enteredPassword: string, hashedPassword: str
 }
 
     //JWT
-
 export const generateJWT = (payload: Types.ObjectId)=> {
     const token = jwt.sign({ id: payload }, process.env.JWT_SECRET, {
-        expiresIn:'1m'
+        expiresIn:'90d' 
     })
     return token
 }

@@ -5,6 +5,7 @@ import ErrorMessage from "@/components/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { forgotPassword } from "@/services/AuthApi";
+import { LuMailCheck } from 'react-icons/lu';
 
 export default function ForgotPasswordView() {
     const initialValues: ForgotPasswordForm = {
@@ -17,7 +18,7 @@ export default function ForgotPasswordView() {
             toast.error(error.message)
         },
         onSuccess: (data) => {
-            toast.success(data) 
+            toast.success(data , {icon:<LuMailCheck className="text-lg"/>}) 
             reset()
         },
     })

@@ -22,7 +22,7 @@ export default function CreateProjectView() {
             toast.error(error.message)
         },
         onSuccess: (data, formData) => {
-            toast.success(data, {description:formData.projectName, icon:<BsFillCheckSquareFill/>}) 
+            toast.success(data, {description:formData.projectName, icon:<BsFillCheckSquareFill className="text-lg"/>}) 
             navigate('/')
         }
         

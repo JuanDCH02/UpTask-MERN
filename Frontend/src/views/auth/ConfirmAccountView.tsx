@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { confirmAccount } from "@/services/AuthApi";
 import { toast } from "sonner";
+import { PiUserCircleCheckFill } from 'react-icons/pi';
 
 
 export default function ConfirmAccountView() {
@@ -15,7 +16,7 @@ export default function ConfirmAccountView() {
             toast.error(error.message)
         },
         onSuccess: (data) => {
-            toast.success(data) 
+            toast.success(data, {icon: <PiUserCircleCheckFill className="text-lg"/>}) 
         },
     })
     const handleChange = (token: string) => setToken(token)

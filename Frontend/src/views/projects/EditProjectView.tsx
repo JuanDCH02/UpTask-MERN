@@ -9,8 +9,7 @@ export default function EditProjectView() {
     const {projectId} = useParams()
     const {data, isError, isLoading} = useQuery({
         queryKey: ['editProject', projectId],
-        queryFn: () => getProjectById(projectId!),
-        
+        queryFn: () => getProjectById(projectId!),    
     })
     if(isLoading) return 'cargando...'
     if(isError) return <Navigate to='/404' /> 

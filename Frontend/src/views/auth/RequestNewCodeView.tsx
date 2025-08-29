@@ -5,6 +5,7 @@ import ErrorMessage from "@/components/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { requestConfirmationCode } from "@/services/AuthApi";
 import { toast } from "sonner";
+import { LuMailCheck } from 'react-icons/lu';
 
 export default function RegisterView() {
     const initialValues: RequestConfirmationCodeForm = {
@@ -18,7 +19,7 @@ export default function RegisterView() {
             toast.error(error.message)
         },
         onSuccess: (data) => {
-            toast.success(data) 
+            toast.success(data, {icon:<LuMailCheck className="text-lg"/>}) 
             reset()
         },
     })

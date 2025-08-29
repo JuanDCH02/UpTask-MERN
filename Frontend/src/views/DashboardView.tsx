@@ -20,7 +20,7 @@ export default function () {
             toast.error(error.message)
         },
         onSuccess: (data) => {
-            toast(data,  {icon:<BsFillTrashFill/>}) 
+            toast(data,  {icon:<BsFillTrashFill className='text-lg'/>}) 
             //force a refetch
             queryClient.invalidateQueries({queryKey:['projects']})
         },
