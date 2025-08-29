@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { UserLoginForm } from "@/types/index";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
@@ -9,6 +9,7 @@ import { PiUserCircleCheckFill } from 'react-icons/pi';
 
 export default function LoginView() {
 
+    const navigate = useNavigate()
     const initialValues: UserLoginForm = {
       email: '',
       password: '',
@@ -21,6 +22,7 @@ export default function LoginView() {
         },
         onSuccess: () => {
             toast.success('Iniciando Sesión', {icon: <PiUserCircleCheckFill className="text-lg"/>})
+            navigate('/')
         },
     })
     const handleLogin = (formData: UserLoginForm) => mutate(formData) 
