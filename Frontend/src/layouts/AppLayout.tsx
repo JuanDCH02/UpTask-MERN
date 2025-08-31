@@ -10,7 +10,8 @@ export default function AppLayout() {
     if(isLoading) return 'cargando manito'
     if(isError) return <Navigate to='/auth/login'/>
     const navigate = useNavigate()
-    return (
+    
+    if(data) return (
     <>
         <header className="bg-gray-800 py-5">
             <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-around items-center">
