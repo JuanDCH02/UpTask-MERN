@@ -10,7 +10,7 @@ export default function AppLayout() {
     if(isLoading) return 'cargando manito'
     if(isError) return <Navigate to='/auth/login'/>
     const navigate = useNavigate()
-    
+
     if(data) return (
     <>
         <header className="bg-gray-800 py-5">
@@ -19,7 +19,9 @@ export default function AppLayout() {
                 <div className="w-64 flex items-center gap-14 cursor-pointer" onClick={() => navigate('/')}>
                     <Logo />
                 </div>
-                    <NavMenu />
+                    <NavMenu 
+                        name={data.name}
+                    />
             </div>
         </header>
 

@@ -5,7 +5,6 @@ import ErrorMessage from "@/components/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/services/AuthApi";
 import { toast } from "sonner";
-import { PiUserCircleCheckFill } from 'react-icons/pi';
 
 export default function LoginView() {
 
@@ -21,7 +20,6 @@ export default function LoginView() {
             toast.error(error.message)
         },
         onSuccess: () => {
-            toast.success('Iniciando Sesión', {icon: <PiUserCircleCheckFill className="text-lg"/>})
             navigate('/')
         },
     })

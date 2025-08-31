@@ -1,7 +1,20 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import type { User } from "../types";
+import { useQueryClient } from "@tanstack/react-query";
 
-export default function NavMenu() {
-    const [open, setOpen] = useState(false);
+type NavMenuProps = {
+    name: User['name']
+}
+
+export default function NavMenu({name} : NavMenuProps) {
+    const [open, setOpen] = useState(false)
+    const queryClient = useQueryClient()
+    
+    const logout = () => {
+        localStorage.removeItem('AUTH_TOKEN')
+        queryClient.invalidateQueries({queryKey:['user']})
+    }
 
     return (
     <div className="relative">
@@ -39,19 +52,24 @@ export default function NavMenu() {
             `}
         >
             <div className="p-4 border-b">
-                <p className="text-gray-700 font-semibold">¡Hola, Usuario!</p>
+                <p className="text-gray-700 font-semibold">¡Hola, {name}!</p>
+                <Link 
+                className="px-4 py-2 hover:bg-purple-100 cursor-pointer transition-colors"
+                to={'/'}
+                    >Mi perfil
+                </Link>
+                <Link 
+                className="px-4 py-2 hover:bg-purple-100 cursor-pointer transition-colors"
+                to={'/'}
+                    >Mi proyectos
+                </Link>
+                <Link 
+                className="px-4 py-2 hover:bg-purple-100 cursor-pointer transition-colors"
+                to={'/'}
+                onClick={logout}
+                    >Cerrar sesión
+                </Link>
             </div>
-            <ul className="text-center">
-                <li className="px-4 py-2 hover:bg-purple-100 cursor-pointer transition-colors">
-                    Elemento 1
-                </li>
-                <li className="px-4 py-2 hover:bg-purple-100 cursor-pointer transition-colors">
-                    Elemento 2
-                </li>
-                <li className="px-4 py-2 hover:bg-purple-100 cursor-pointer transition-colors">
-                    Elemento 3
-                </li>
-            </ul>
         </div>
     </div>
 )}
