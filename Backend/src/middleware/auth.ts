@@ -22,6 +22,7 @@ export const authenticate = async (req:Request, res: Response, next: NextFunctio
             const user = await User.findById(decoded.id).select('_id')
             if(user){
                 req.user = user
+                next()
             }else{
                 return res.status(500).json({error:'Token no válido'})
             }   
@@ -29,5 +30,4 @@ export const authenticate = async (req:Request, res: Response, next: NextFunctio
     } catch (error) {
         return res.status(500).json({error:'Token no válido'})
     }
-    next()
 }
