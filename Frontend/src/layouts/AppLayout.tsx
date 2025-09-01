@@ -6,10 +6,10 @@ import { useAuth } from "@/hooks/useAuth"
 
 export default function AppLayout() {
 
+    const navigate = useNavigate()
     const {data, isError, isLoading} = useAuth()
     if(isLoading) return 'cargando manito'
     if(isError) return <Navigate to='/auth/login'/>
-    const navigate = useNavigate()
 
     if(data) return (
     <>

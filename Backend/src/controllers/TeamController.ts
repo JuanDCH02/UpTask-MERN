@@ -1,0 +1,36 @@
+import type {Request,Response } from 'express'
+import User from '../models/User'
+
+
+export class TeamMemberController {
+    static findMemberByEmail = async (req: Request, res: Response) => {
+        const {email} = req.body
+        const user = await User.findOne({email}).select('id email name')
+        if(!user) return res.status(404).json({error: 'Usuario no encontrado'})
+        return res.json(user)
+    }
+
+    static addMember = async (req: Request, res: Response) => {
+        const {id} = req.body
+        const user = await User.findById(id).select('id')
+        if(!user) return res.status(404).json({error: 'Usuario no encontrado'})
+            //avoid duplicates members
+        if(req.project.team.some(team => team.toString() === user.id.toString())){
+            return res.status(409).json({error: 'Usuario ya existente en el proyecto'})
+        }
+            //add member to the project
+        req.project.team.push(user.id)
+        await req.project.save()
+        return res.send('Usuario agregado correctamente')
+    }
+
+    static removeMember = async (req: Request, res: Response) => {
+        const {id} = req.body
+        if(!req.project.team.some(team => team.toString() === id)){
+            return res.status(409).json({error: 'Usuario no existente en el proyecto'})
+        }
+        req.project.team = req.project.team.filter( member => member.toString() !== id)
+        await req.project.save()
+        return res.send('Usuario removido correctamente')
+    }
+}

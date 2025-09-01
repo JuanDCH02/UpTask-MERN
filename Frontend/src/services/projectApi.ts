@@ -5,7 +5,7 @@ import type { Project } from "../types"
 
 export async function createProject(formData: ProjectFormData) {
     try {
-        const {data} = await api.post('/projects', formData)
+        const {data} = await api.post<string>('/projects', formData)
         return data
     } catch (error) {
         if(isAxiosError(error) && error.response){
@@ -51,7 +51,7 @@ export async function UpdateProject({formData, projectId} : ProjectApiType) {
 }
 export async function DeleteProject(projectId: Project['_id']) {
     try {
-        const {data} = await api.delete(`/projects/${projectId}`)
+        const {data} = await api.delete<string>(`/projects/${projectId}`)
         return data
     } catch (error) {
         if(isAxiosError(error) && error.response){
