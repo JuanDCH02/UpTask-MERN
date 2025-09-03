@@ -122,8 +122,8 @@ router.post('/:projectId/team',
     handleInputErrors,
     TeamMemberController.addMember
 )
-router.delete('/:projectId/team',
-    body('id')
+router.delete('/:projectId/team/:userId',
+    param('userId')
         .isMongoId().withMessage('ID no válido'),
     handleInputErrors,
     TeamMemberController.removeMember

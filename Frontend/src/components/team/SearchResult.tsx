@@ -1,11 +1,10 @@
 import { addUserToProject } from "@/services/TeamApi"
 import type { TeamMember } from "@/types/index"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useParams } from "react-router-dom"
 import { toast } from "sonner"
 import { AiOutlineUserAdd } from 'react-icons/ai';
-//remove member
-import { MdPersonAddDisabled } from 'react-icons/md';
+
 
 type SearchResultProps = {
     user: TeamMember
@@ -17,13 +16,16 @@ export default function SearchResult({user, reset} : SearchResultProps) {
     const params = useParams()
     const projectId = params.projectId!
 
+    const queryClient = useQueryClient()
+
     const {mutate} = useMutation({
         mutationFn:addUserToProject,
         onError:(error) => {
             toast.error(error.message)
         },
         onSuccess:(data) => {
-            toast.success(data, {icon: <AiOutlineUserAdd/>}) 
+            toast.success(data, {icon: <AiOutlineUserAdd className="text-lg"/>}) 
+            queryClient.invalidateQueries({queryKey:['ProjectTeam', projectId]})
             reset()
         }
     })

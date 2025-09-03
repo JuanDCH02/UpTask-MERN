@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Dialog, Transition. TransitionChild, DialogPanel, DialogTitle} from '@headlessui/react';
+import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle} from '@headlessui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddMemberForm from './AddMemberForm';
 
