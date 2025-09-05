@@ -27,3 +27,9 @@ export async function taskExists(req:Request, res: Response, next: NextFunction)
         res.status(500).json({error: 'hubo un error'})
     }
 }
+export async function hasAuthorization(req:Request, res: Response, next: NextFunction){
+    if(req.user.id.toString() !== req.project.manager.toString()){
+        return res.status(406).json({error: 'Falta de permisos'})
+    }
+    next()
+}

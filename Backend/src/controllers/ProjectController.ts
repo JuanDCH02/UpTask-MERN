@@ -17,10 +17,11 @@ export class ProjectController {
 
     static GetAllProjects = async (req: Request, res: Response) => {
         try {
-                //return the projects this user is manager
+                //show the projects where the user is manager or teamMember
             const projects = await Project.find({
                 $or:[
-                    { manager:{$in: req.user.id} }
+                    { manager:{$in: req.user.id} },
+                    { team:{$in: req.user.id} },
                 ]
             }).populate('tasks')
             return res.json(projects)
@@ -36,10 +37,12 @@ export class ProjectController {
             if(!project) {
                 return res.status(404).json({error: 'Proyecto no encontrado'})
             } 
-            if(project.manager.toString() !== req.user.id.toString()) {
+                // can't get the project if user isn't manager or teamMember
+            if(project.manager.toString() !== req.user.id.toString() 
+                && !project.team.includes(req.user.id)) {
                 return res.json({error: 'Falta de permisos'})
             }
-            return res.status(200).json(project)
+            return res.json(project)
         } catch (error) {
             console.log(error)
         }

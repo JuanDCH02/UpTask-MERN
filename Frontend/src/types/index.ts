@@ -53,6 +53,7 @@ export const ProjectSchema = z.object({
     clientName:z.string(),
     description:z.string(),
     tasks: z.array(TaskSchema),
+    manager: userSchema.shape._id,
 })
 
 export const DashboardProjectsSchema = z.array(
@@ -61,7 +62,8 @@ export const DashboardProjectsSchema = z.array(
         projectName:true,
         clientName:true,
         description:true,
-        tasks:true
+        tasks:true,
+        manager: true,
     })
 )
 export type Project = z.infer<typeof ProjectSchema>

@@ -6,10 +6,13 @@ import { Link } from "react-router-dom"
 import { toast } from 'sonner'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 import { BsFillTrashFill } from 'react-icons/bs';
+import { useAuth } from '@/hooks/useAuth'
+import { isManager } from '../utils'
 
 export default function () {
 
-    const {data} = useQuery({
+    const {data:user, isLoading:authLoading} = useAuth()
+    const {data, isLoading} = useQuery({
         queryKey: ['projects'],
         queryFn: getProjects
     })
@@ -25,8 +28,11 @@ export default function () {
             queryClient.invalidateQueries({queryKey:['projects']})
         },
     })
+    console.log(data) 
+    console.log(user?._id) 
 
-    if(data)return (
+    if(isLoading && authLoading) return 'Cargando ...'
+    if(data && user)return (
     <>
         <h1 className="text-5xl font-black text-shadow-lg/20">Mis Proyectos</h1>
         <p className="text-2xl font-medium text-gray-600">Maneja y administra tus Proyetos</p>
@@ -42,6 +48,13 @@ export default function () {
             <li key={project._id} className="flex justify-between gap-x-6 px-5 py-10">
                 <div className="flex min-w-0 gap-x-4">
                     <div className="min-w-0 flex-auto space-y-2">
+                        <div>
+                        { //identifier role in project
+                            isManager(project.manager, user._id) ?
+                            <p className='font-bold text-xs bg-indigo-50 text-indigo-500 border-2 border-indigo-500 rounded-lg inline-block py-1 px-5'>Manager</p> :
+                            <p className='font-bold text-xs bg-green-50 text-green-500 border-2 border-green-500 rounded-lg inline-block py-1 px-5'>Colaborador</p>
+                        }
+                        </div>
                         <Link to={`/projects/${project._id}`}
                             className="text-gray-600 cursor-pointer hover:underline text-3xl font-bold capitalize"
                             >{project.projectName}
@@ -73,21 +86,25 @@ export default function () {
                                         >Ver Proyecto
                                     </Link>
                                 </MenuItem>
-                                <MenuItem>
-                                    <Link 
-                                        to={`/projects/${project._id}/edit`}
-                                        className='block px-3 py-1 text-sm leading-6 text-gray-900'
-                                        >Editar Proyecto
-                                    </Link>
-                                </MenuItem>
-                                <MenuItem>
-                                    <button 
-                                        type='button' 
-                                        className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                        onClick={() => {mutate(project._id)} }
-                                        >Eliminar Proyecto
-                                    </button>
-                                </MenuItem>
+                                {isManager(project.manager, user._id) && ( //hidding options if not manager
+                                    <>
+                                    <MenuItem>
+                                        <Link 
+                                            to={`/projects/${project._id}/edit`}
+                                            className='block px-3 py-1 text-sm leading-6 text-gray-900'
+                                            >Editar Proyecto
+                                        </Link>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <button 
+                                            type='button' 
+                                            className='block px-3 py-1 text-sm leading-6 text-red-500'
+                                            onClick={() => {mutate(project._id)} }
+                                            >Eliminar Proyecto
+                                        </button>
+                                    </MenuItem>
+                                    </>
+                                )}
                             </MenuItems>
                         </Transition>
                     </Menu>

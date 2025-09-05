@@ -4,7 +4,7 @@ import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
 import { TaskController } from "../controllers/TaskController";
 import { projectExists } from "../middleware/project";
-import { taskExists } from "../middleware/task";
+import { hasAuthorization, taskExists } from "../middleware/task";
 import { authenticate } from "../middleware/auth";
 import { TeamMemberController } from "../controllers/TeamController";
 
@@ -58,10 +58,11 @@ router.delete('/:projectId',
 )
 
     //ROUTES FOR TASKS 
-    //execute function in every route
     router.param('projectId', projectExists)
+    router.param('taskId',taskExists )
 
 router.post('/:projectId/tasks',
+    hasAuthorization,
     body('taskName')
         .notEmpty().withMessage('El nombre de la tarea es obligatoria'),
     body('description')
@@ -72,8 +73,6 @@ router.post('/:projectId/tasks',
 router.get('/:projectId/tasks',
     TaskController.GetTasks
 )
-    //execute function in every route
-    router.param('taskId',taskExists )
 
 router.get('/:projectId/tasks/:taskId',
     param('taskId').isMongoId().withMessage('ID no valido'),
@@ -82,6 +81,7 @@ router.get('/:projectId/tasks/:taskId',
 )
 
 router.put('/:projectId/tasks/:taskId',
+    hasAuthorization,
     param('taskId').isMongoId().withMessage('ID no valido'),
     body('taskName')
         .notEmpty().withMessage('El nombre de la tarea es obligatoria'),
@@ -92,6 +92,7 @@ router.put('/:projectId/tasks/:taskId',
 )
 
 router.delete('/:projectId/tasks/:taskId',
+    hasAuthorization,
     param('taskId').isMongoId().withMessage('ID no valido'),
     handleInputErrors,
     TaskController.DeleteTask

@@ -51,7 +51,7 @@ export default function NavMenu({name} : NavMenuProps) {
             sm:w-60 w-screen rounded-none sm:rounded-lg  left-1/2 -translate-x-1/2 sm:translate-x--5
             `}
         >
-            <div className="p-4 border-b">
+            <div className="p-4 border-b flex flex-col">
                 <p className="text-gray-700 font-semibold">¡Hola, {name}!</p>
                 <Link 
                 className="px-4 py-2 hover:bg-purple-100 cursor-pointer transition-colors"

@@ -1,3 +1,4 @@
+import type { Project, TeamMember } from "../types"
 
 export function formatDate(str:string){
     const date = new Date(str)
@@ -15,3 +16,5 @@ export const statusTranslation : {[key: string]: string} = {
     under_review: 'Bajo Revisión',
     completed: 'Completada',
 }
+
+export const isManager = (managerId:Project['manager'], userId:TeamMember['_id']) => managerId === userId
