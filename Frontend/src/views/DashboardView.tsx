@@ -28,8 +28,6 @@ export default function () {
             queryClient.invalidateQueries({queryKey:['projects']})
         },
     })
-    console.log(data) 
-    console.log(user?._id) 
 
     if(isLoading && authLoading) return 'Cargando ...'
     if(data && user)return (

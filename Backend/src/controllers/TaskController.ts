@@ -29,10 +29,7 @@ export class TaskController {
     }
     static GetTasksById = async (req: Request, res: Response) => {
         try {
-            if(req.task.project.toString() !== req.project.id){
-                return res.status(406).json({error: 'La tarea no pertenece a este proyecto'})
-            }
-            res.status(200).json(req.task)
+            res.json(req.task)
         } catch (error) {
             res.status(404).json({error: 'Tarea No Encontrada'})
         }
@@ -60,7 +57,13 @@ export class TaskController {
     }
     static UpdateTaskStatus = async (req: Request, res: Response) => {
         try {
-            req.task.status = req.body.status
+            const {status} = req.body
+            req.task.status = status
+            if(status === 'pending'){
+                req.task.completedBy = null
+            }else{
+                req.task.completedBy = req.user.id
+            }
             await req.task.save()
             res.status(200).send('Estado de la Tarea Actualizado')
         } catch (error) {
