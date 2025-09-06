@@ -9,7 +9,8 @@ type TaskAPi = {
     status:Task['status']
 }
 
-export async function createTask({formData, projectId}: Pick<TaskAPi, 'formData'|'projectId'>) {
+export async function createTask({formData, projectId}: 
+                    Pick<TaskAPi, 'formData'|'projectId'>) {
     try {
         const url = (`/projects/${projectId}/tasks`)
         const {data} = await api.post<string>(url, formData)
@@ -20,7 +21,8 @@ export async function createTask({formData, projectId}: Pick<TaskAPi, 'formData'
         }
     }
 }
-export async function getTaskbyId({projectId, taskId}: Pick<TaskAPi, 'taskId'|'projectId'>) {
+export async function getTaskbyId({projectId, taskId}: 
+                    Pick<TaskAPi, 'taskId'|'projectId'>) {
     try {
         const url = `projects/${projectId}/tasks/${taskId}`
         const {data} = await api(url)
@@ -32,7 +34,8 @@ export async function getTaskbyId({projectId, taskId}: Pick<TaskAPi, 'taskId'|'p
         }
     }
 }
-export async function updateTask({projectId, taskId, formData}: Pick<TaskAPi, 'taskId'|'projectId'|'formData'>) {
+export async function updateTask({projectId, taskId, formData}: 
+                        Pick<TaskAPi, 'taskId'|'projectId'|'formData'>) {
     try {
         const url = `projects/${projectId}/tasks/${taskId}`
         const {data} = await api.put<string>(url, formData)
@@ -43,7 +46,8 @@ export async function updateTask({projectId, taskId, formData}: Pick<TaskAPi, 't
         }
     }
 }
-export async function deleteTask({projectId, taskId}: Pick<TaskAPi, 'taskId'|'projectId'>) {
+export async function deleteTask({projectId, taskId}: 
+                        Pick<TaskAPi, 'taskId'|'projectId'>) {
     try {
         const url = `projects/${projectId}/tasks/${taskId}`
         const {data} = await api.delete<string>(url)
@@ -54,7 +58,8 @@ export async function deleteTask({projectId, taskId}: Pick<TaskAPi, 'taskId'|'pr
         }
     }
 }
-export async function updateStatusTask({projectId, taskId, status}: Pick<TaskAPi, 'taskId'|'projectId'|'status'>) {
+export async function updateStatusTask({projectId, taskId, status}: 
+                        Pick<TaskAPi, 'taskId'|'projectId'|'status'>) {
     try {
         const url = `projects/${projectId}/tasks/${taskId}/status`
         const {data} = await api.post<string>(url, {status})

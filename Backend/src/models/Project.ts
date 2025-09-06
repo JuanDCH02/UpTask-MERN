@@ -17,7 +17,7 @@ const ProjectSchema: Schema = new Schema({
     clientName: { type: String, required: true },
     description: { type: String, required: true },
     tasks: [{ type: Types.ObjectId, ref: 'Task' }],
-    manager: {type: Types.ObjectId, ref: 'User'  },
+    manager: {type: Types.ObjectId, ref: 'User' },
     team: [{type: Types.ObjectId, ref: 'User'  }],
 }, {timestamps: true})
 

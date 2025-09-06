@@ -51,62 +51,72 @@ export default function TaskModalDetails() {
   
     if(data) return (
         <>
-            <Transition appear show={showModal} as={Fragment}>
-                <Dialog as="div" className="relative z-10" onClose={() => navigate('', {replace:true})}>
-                    <TransitionChild
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
-                        <div className="fixed inset-0 bg-black/60" />
-                    </TransitionChild>
-
-                    <div className="fixed inset-0 overflow-y-auto">
-                        <div className="flex min-h-full items-center justify-center p-4 text-center">
-                            <TransitionChild
-                                as={Fragment}
-                                enter="ease-out duration-300"
-                                enterFrom="opacity-0 scale-95"
-                                enterTo="opacity-100 scale-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100 scale-100"
-                                leaveTo="opacity-0 scale-95"
-                            >
-                                <DialogPanel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-16">
-                                    <p className='text-sm text-slate-400'>Agregada el: {formatDate(data.createdAt)}</p>
-                                    <p className='text-sm text-slate-400'>Última actualización: {formatDate(data.updatedAt)}</p>
-                                    <DialogTitle
-                                        as="h3"
-                                        className="font-black text-4xl text-slate-600 my-5"
-                                        >{data.taskName}
-                                    </DialogTitle>
-                                    <p className='text-lg text-slate-500 mb-2'>Descripción: {data.description}</p>
-                                    <div className='my-5 space-y-3'>
-                                        <label className='font-bold'>Estado Actual:</label>
-                                        <select name="" id=""
-                                        defaultValue={data.status}
-                                        onChange={handleChange}
-                                        className='block w-full p-2 rounded'>
-                                            {Object.entries(statusTranslation).map(
-                                                status =>(
-                                                    <option value={status[0]} key={status[0]}
-                                                        className=''
-                                                        >{status[1]}
-                                                    </option>
-                                                )
-                                            )}
-                                        </select>
-                                    </div>
-                                </DialogPanel>
-                            </TransitionChild>
-                        </div>
+        <Transition appear show={showModal} as={Fragment}>
+            <Dialog as="div" className="relative z-10" onClose={() => navigate('', {replace:true})}>
+                <TransitionChild
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                >
+                    <div className="fixed inset-0 bg-black/60" />
+                </TransitionChild>
+                <div className="fixed inset-0 overflow-y-auto">
+                    <div className="flex min-h-full items-center justify-center p-4 text-center">
+                        <TransitionChild
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 scale-95"
+                            enterTo="opacity-100 scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-95"
+                        >
+                            <DialogPanel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-16">
+                                <p className='text-sm text-slate-400'>Agregada el: {formatDate(data.createdAt)}</p>
+                                <p className='text-sm text-slate-400'>Última actualización: {formatDate(data.updatedAt)}</p>
+                                <DialogTitle
+                                    as="h3"
+                                    className="font-black text-4xl text-slate-600 my-5"
+                                    >{data.taskName}
+                                </DialogTitle>
+                                <p className='text-lg text-slate-600 mb-2'>Descripción: {data.description}</p>
+                                <p className='text-2xl mb-2 italic'>Historial de cambios</p>
+                                <ul className='list-decimal text-slate-600 font-semibold'>
+                                    {data.completedBy.map(task => (
+                                        <li key={task._id}>
+                                            <span>
+                                                {statusTranslation[task.status]} -
+                                            </span> {task.user.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                              
+                                <div className='my-5 space-y-3'>
+                                    <label className='font-bold'>Estado Actual:</label>
+                                    <select name="" id=""
+                                    defaultValue={data.status}
+                                    onChange={handleChange}
+                                    className='mt-1 block w-full p-2 rounded border border-gray-400'>
+                                        {Object.entries(statusTranslation).map(
+                                            status =>(
+                                                <option value={status[0]} key={status[0]}
+                                                    className=''
+                                                    >{status[1]}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                </div>
+                            </DialogPanel>
+                        </TransitionChild>
                     </div>
-                </Dialog>
-            </Transition>
+                </div>
+            </Dialog>
+        </Transition>
         </>
     )
 }

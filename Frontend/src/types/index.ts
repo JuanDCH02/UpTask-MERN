@@ -33,13 +33,24 @@ export const taskStatusSchema = z.enum(["pending" , "on_hold" , "in_progress" ,
 export type TaskStatus = z.infer<typeof taskStatusSchema>
 
 export const TaskSchema = z.object({
-    _id:z.string(),
-    taskName:z.string(),
-    description:z.string(),
-    project:z.string(),
-    status:taskStatusSchema,
-    createdAt:z.string(),
-    updatedAt:z.string(),
+    _id: z.string(),
+    taskName: z.string(),
+    description: z.string(),
+    project: z.string(),
+    status: taskStatusSchema,
+    completedBy: z.array(z.object({
+        _id: z.string(),
+        user:userSchema,
+        status:taskStatusSchema
+    })),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+})
+export const taskProjectSchema = TaskSchema.pick({
+    _id: true,
+    taskName: true,
+    description: true,
+    status: true
 })
 
 export type Task = z.infer<typeof TaskSchema>
@@ -48,11 +59,11 @@ export type TaskFormData = Pick<Task, 'taskName' |'description'>
 //PROJECTS
 
 export const ProjectSchema = z.object({
-    _id:z.string(),
-    projectName:z.string(),
-    clientName:z.string(),
-    description:z.string(),
-    tasks: z.array(TaskSchema),
+    _id: z.string(),
+    projectName: z.string(),
+    clientName: z.string(),
+    description: z.string(),
+    tasks: z.array(taskProjectSchema),
     manager: userSchema.shape._id,
 })
 

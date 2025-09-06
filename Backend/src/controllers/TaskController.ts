@@ -29,7 +29,9 @@ export class TaskController {
     }
     static GetTasksById = async (req: Request, res: Response) => {
         try {
-            res.json(req.task)
+            const task = await Task.findById(req.task.id)
+                        .populate({path:'completedBy.user', select:('_id name email')})
+            res.json(task)
         } catch (error) {
             res.status(404).json({error: 'Tarea No Encontrada'})
         }
@@ -57,13 +59,14 @@ export class TaskController {
     }
     static UpdateTaskStatus = async (req: Request, res: Response) => {
         try {
+                // get the user and the status and push them to the task history
             const {status} = req.body
             req.task.status = status
-            if(status === 'pending'){
-                req.task.completedBy = null
-            }else{
-                req.task.completedBy = req.user.id
+            const data = {
+                user: req.user.id,
+                status
             }
+            req.task.completedBy.push(data)
             await req.task.save()
             res.status(200).send('Estado de la Tarea Actualizado')
         } catch (error) {
