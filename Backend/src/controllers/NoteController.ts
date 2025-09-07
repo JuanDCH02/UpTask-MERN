@@ -21,4 +21,12 @@ export class NoteController {
             return res.status(500).json({error:'Error al crear la nota'})
         }
     }
+    static getTaskNotes = async (req:Request<{},{},INote >, res:Response)=> {
+        try {
+            const notes = await Note.find({task: req.task.id})
+            return res.json(notes)
+        } catch (error) {
+            return res.status(500).json({error:'Error al obtener las notas'})
+        }
+    }
 } 

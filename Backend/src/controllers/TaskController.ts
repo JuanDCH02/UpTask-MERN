@@ -30,7 +30,10 @@ export class TaskController {
     static GetTasksById = async (req: Request, res: Response) => {
         try {
             const task = await Task.findById(req.task.id)
+                            //data from user who created the task
                         .populate({path:'completedBy.user', select:('_id name email')})
+                            //data from notes in the task and who created it
+                        .populate({path:'notes', populate:{path:'createdBy', select:('_id name email')}})
             res.json(task)
         } catch (error) {
             res.status(404).json({error: 'Tarea No Encontrada'})
