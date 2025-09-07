@@ -7,6 +7,7 @@ import { projectExists } from "../middleware/project";
 import { hasAuthorization, taskExists } from "../middleware/task";
 import { authenticate } from "../middleware/auth";
 import { TeamMemberController } from "../controllers/TeamController";
+import { NoteController } from "../controllers/NoteController";
 
 const router = Router()
 
@@ -129,6 +130,13 @@ router.delete('/:projectId/team/:userId',
     handleInputErrors,
     TeamMemberController.removeMember
 )
+    // TASK NOTES
 
+router.post('/:projectId/tasks/:taskId/notes',
+    body('content')
+        .notEmpty().withMessage('La nota no puede estar vacio'),
+    handleInputErrors,
+    NoteController.createNote
+)
 
 export default router;
