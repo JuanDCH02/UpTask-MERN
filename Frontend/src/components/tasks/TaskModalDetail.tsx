@@ -81,14 +81,14 @@ export default function TaskModalDetails() {
                                 <p className='text-sm text-slate-400'>Última actualización: {formatDate(data.updatedAt)}</p>
                                 <DialogTitle
                                     as="h3"
-                                    className="font-black text-4xl text-slate-600 my-5"
+                                    className="font-black text-4xl text-slate-600 my-3"
                                     >{data.taskName}
                                 </DialogTitle>
                                 <p className='text-lg text-slate-600 mb-2'>Descripción: {data.description}</p>
 
                                 {data.completedBy.length ? (
                                     <>
-                                        <p className='text-2xl mb-2 italic'>Historial de cambios</p>
+                                        <p className='"font-bold text-2xl text-slate-600 my-5"'>Historial de cambios</p>
                                         <ul className='list-decimal text-slate-600 font-semibold'>
                                         {data.completedBy.map(task => (
                                             <li key={task._id}>
@@ -117,7 +117,9 @@ export default function TaskModalDetails() {
                                     </select>
                                 </div>
 
-                                <NotesPanel/>
+                                <NotesPanel
+                                    notes={data.notes}
+                                />
 
                             </DialogPanel>
                         </TransitionChild>
