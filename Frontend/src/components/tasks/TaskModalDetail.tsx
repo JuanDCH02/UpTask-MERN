@@ -3,6 +3,7 @@ import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getTaskbyId, updateStatusTask } from '@/services/TaskApi';
+import NotesPanel from '../notes/NotesPanel';
 import { toast } from 'sonner';
 import { formatDate } from '@/utils/index';
 import { statusTranslation } from '@/utils/index';
@@ -84,17 +85,21 @@ export default function TaskModalDetails() {
                                     >{data.taskName}
                                 </DialogTitle>
                                 <p className='text-lg text-slate-600 mb-2'>Descripción: {data.description}</p>
-                                <p className='text-2xl mb-2 italic'>Historial de cambios</p>
-                                <ul className='list-decimal text-slate-600 font-semibold'>
-                                    {data.completedBy.map(task => (
-                                        <li key={task._id}>
-                                            <span>
-                                                {statusTranslation[task.status]} -
-                                            </span> {task.user.name}
-                                        </li>
-                                    ))}
-                                </ul>
-                              
+
+                                {data.completedBy.length ? (
+                                    <>
+                                        <p className='text-2xl mb-2 italic'>Historial de cambios</p>
+                                        <ul className='list-decimal text-slate-600 font-semibold'>
+                                        {data.completedBy.map(task => (
+                                            <li key={task._id}>
+                                                <span>
+                                                    {statusTranslation[task.status]} -
+                                                </span> {task.user.name}
+                                            </li>
+                                        ))}
+                                        </ul>
+                                    </>
+                                ):''}
                                 <div className='my-5 space-y-3'>
                                     <label className='font-bold'>Estado Actual:</label>
                                     <select name="" id=""
@@ -111,6 +116,9 @@ export default function TaskModalDetails() {
                                         )}
                                     </select>
                                 </div>
+
+                                <NotesPanel/>
+
                             </DialogPanel>
                         </TransitionChild>
                     </div>

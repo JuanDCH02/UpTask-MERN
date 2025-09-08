@@ -1,6 +1,6 @@
 import { z} from 'zod'
 
-//AUTH 
+    //AUTH 
 
 const AuthSchema = z.object({
     name: z.string(),
@@ -25,8 +25,17 @@ export const userSchema = AuthSchema.pick({
 })
 export type User = z.infer<typeof userSchema>
 
-//TASKS
+    //NOTES
+    const NoteSchema = z.object({
+        _id: z.string(),
+        content: z.string(),
+        task: z.string(),
+        createdBy: userSchema,
+    }) 
+export type Note = z.infer<typeof NoteSchema>
+export type NoteFormData = Pick<Note, 'content'>
 
+    //TASKS
 export const taskStatusSchema = z.enum(["pending" , "on_hold" , "in_progress" ,
     "under_review" , "completed"])
 
