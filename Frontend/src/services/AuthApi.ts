@@ -92,3 +92,13 @@ export async function getUser() {
         }
     }
 }
+export async function checkPassword(formData:string) {
+    try {
+        const {data} = await api.post<string>('/auth/check-password', formData)
+        return data
+    } catch (error) {
+        if(isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error)
+        }
+    }
+}

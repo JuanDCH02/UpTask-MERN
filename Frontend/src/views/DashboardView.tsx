@@ -1,32 +1,21 @@
 import { Fragment } from 'react'
 import { Menu, Transition, MenuItem, MenuItems, MenuButton } from '@headlessui/react'
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { DeleteProject, getProjects } from "@/services/projectApi"
-import { Link } from "react-router-dom"
-import { toast } from 'sonner'
+import { useQuery } from "@tanstack/react-query"
+import { getProjects } from "@/services/projectApi"
+import { Link,  useNavigate } from "react-router-dom"
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
-import { BsFillTrashFill } from 'react-icons/bs';
 import { useAuth } from '@/hooks/useAuth'
 import { isManager } from '../utils'
+import DeleteProjectModal from '@/components/projects/DeleteProjectModal'
 
 export default function () {
-
+ 
     const {data:user, isLoading:authLoading} = useAuth()
+    const navigate = useNavigate()
+    
     const {data, isLoading} = useQuery({
         queryKey: ['projects'],
         queryFn: getProjects
-    })
-    const queryClient = useQueryClient()
-    const {mutate} = useMutation({
-        mutationFn: DeleteProject,
-        onError: (error) => {
-            toast.error(error.message)
-        },
-        onSuccess: (data) => {
-            toast(data,  {icon:<BsFillTrashFill className='text-lg'/>}) 
-            //force a refetch
-            queryClient.invalidateQueries({queryKey:['projects']})
-        },
     })
 
     if(isLoading && authLoading) return 'Cargando ...'
@@ -97,7 +86,7 @@ export default function () {
                                         <button 
                                             type='button' 
                                             className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                            onClick={() => {mutate(project._id)} }
+                                            onClick={() => navigate(''+ `?deleteProject=${project._id}`)}
                                             >Eliminar Proyecto
                                         </button>
                                     </MenuItem>
@@ -110,5 +99,7 @@ export default function () {
             </li>
             ))}
         </ul>
+
+        <DeleteProjectModal/>
     </>
 )}

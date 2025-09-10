@@ -169,5 +169,14 @@ export class AuthController {
             res.status(500).json({error:'Error al modificar al usuario'})
         }
     }
+    static checkPassword = async (req:Request, res:Response)=> {
+        const {password} = req.body
+        const user = await User.findById(req.user.id)
+
+        const passwCorrect = await checkPassword(password, user.password)
+        if(!passwCorrect) return res.status(401).json({error:'Contraseña incorrecta'})
+        res.send('Contraseña correcta')
+
+    }
 
 }
