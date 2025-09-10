@@ -77,5 +77,32 @@ router.get('/user',
     AuthController.user
 )
 
+    //PROFILE
+router.put('/profile', 
+    authenticate,
+    body('name')
+        .notEmpty().withMessage('El nombre es obligatorio'),
+    body('email')
+        .isEmail().withMessage('El email no es válido'),
+        handleInputErrors,
+    AuthController.updateProfile
+)
+router.post('/password', 
+    authenticate,
+    body('current_password')
+        .notEmpty().withMessage('La contraseña actual es obligatorio'),
+    body('password')
+        .isLength({min:8}).withMessage('La contraseña debe ser de al menos 8 carácteres'),
+    body('password_confirmation')
+        .custom((value, {req}) => {
+            if(value != req.body.password){
+                throw new Error('La contraseña no es igual')
+            }
+            return true
+        }),
+    handleInputErrors,
+    AuthController.updateProfilePassword
+)
+
 
 export default router

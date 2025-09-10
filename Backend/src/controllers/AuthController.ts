@@ -137,5 +137,37 @@ export class AuthController {
     static user = async (req:Request, res:Response)=> {
         return res.json(req.user)
     }
+    static updateProfile = async (req:Request, res:Response)=> {
+        const {name,email} = req.body
+
+        const userExists = await User.findOne({email})
+        if(userExists && userExists.id.toString() !== req.user.id.toString())
+            return res.status(409).json({error:'Email ya esta en uso'})
+
+        req.user.name = name
+        req.user.email = email
+        try {
+            await req.user.save()
+            res.status(200).send('Usuario actualizado con éxito')
+        } catch (error) {
+            res.status(500).json({error:'Error al modificar al usuario'})
+        }
+    }
+    static updateProfilePassword = async (req:Request, res:Response)=> {
+        const {password, current_password} = req.body
+
+        const user = await User.findById(req.user.id)
+
+        const passwCorrect = await checkPassword(current_password, user.password)
+        if(!passwCorrect) return res.status(401).json({error:'Contraseña incorrecta'})
+
+        try {
+            user.password = await hashPassword(password)
+            await req.user.save()
+            res.status(200).send('Usuario actualizado con éxito')
+        } catch (error) {
+            res.status(500).json({error:'Error al modificar al usuario'})
+        }
+    }
 
 }

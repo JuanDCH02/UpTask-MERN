@@ -1,21 +1,36 @@
 import { useForm } from "react-hook-form"
 import ErrorMessage from "../ErrorMessage"
 import type { User, UserProfileForm } from "@/types/index"
+import { updateProfile } from "@/services/ProfileApi"
+import { toast } from "sonner"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { MdPublishedWithChanges } from 'react-icons/md';
 
 type ProfileFormProps = {
     data:User
-    formData: UserProfileForm
 }
 
 export default function ProfileForm({ data } : ProfileFormProps) {
+
     const { register, handleSubmit, formState: { errors } } = useForm<UserProfileForm>({ defaultValues: data })
 
-    const handleEditProfile = (formData) => {}
+    const queryClient = useQueryClient()
+    const {mutate} = useMutation({
+        mutationFn: updateProfile,
+        onError:(error) => {
+            toast.error(error.message)
+        },
+        onSuccess:(data) => {
+            toast.success(data, {icon: <MdPublishedWithChanges className="text-lg"/>}) 
+            queryClient.invalidateQueries({queryKey:['profile']})
+        }
+    })
+    const handleEditProfile = (formData : UserProfileForm) => mutate(formData)
 
     return (
         <>
             <div className="mx-auto max-w-3xl g">
-                <h1 className="text-5xl font-black ">Mi Perfil</h1>
+                <h1 className="text-5xl font-black text-shadow-lg/20">Mi Perfil</h1>
                 <p className="text-2xl font-light text-gray-500 mt-5">Aquí puedes actualizar tu información</p>
 
                 <form

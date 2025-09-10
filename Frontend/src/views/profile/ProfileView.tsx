@@ -7,6 +7,5 @@ export default function ProfileView() {
 
     if(isLoading) return 'Cargando ...'
 
-
     if(data )return <ProfileForm data={data}/>
 }
