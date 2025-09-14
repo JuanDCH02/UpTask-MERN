@@ -1,4 +1,4 @@
-import type { Task } from "@/types/index"
+import type { TaskProject } from "@/types/index"
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react"
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid"
 import { Fragment } from "react/jsx-runtime"
@@ -8,13 +8,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { deleteTask } from "@/services/TaskApi"
 import { toast } from "sonner"
 import { BsFillTrashFill } from 'react-icons/bs';
+import {useDraggable} from '@dnd-kit/core'
 
 type TaskCardProps = {
-    task: Task,
+    task: TaskProject,
     canEdit:boolean
 }
 
 export default function TaskCard({task, canEdit} : TaskCardProps) {
+
+    const { attributes, transform, setNodeRef, listeners } = useDraggable({
+        id: task._id
+    })
 
     const navigate = useNavigate()
     const params = useParams()
@@ -31,17 +36,25 @@ export default function TaskCard({task, canEdit} : TaskCardProps) {
             toast(data, { icon:<BsFillTrashFill/>})
         }
     })
-
+    const style = transform ? {
+        transform:`translate3d(${transform.x}px,${transform.y}px,0)`,
+        padding: "1.25rem",
+        backgroundColor: "#FFF",
+        width: "300px",
+        display: "flex",
+        borderWidth: "1px",
+        borderColor: "rgb(203 213 225 / var(--tw-border-opacity))"
+    } : undefined
 
     return (
-        <li className="p-5 bg-white border border-slate-300 flex justify-between gap-3">
-            <div className="min-w-0 flex flex-col gap-y-4 ">
-                <button type="button"
-                    className="text-xl font-bold text-slate-600 text-left cursor-pointer"
-                    onClick={()=> navigate('' + `?viewTask=${task._id}`)}
+        <li className="p-5 bg-white border border-slate-300 shadow flex justify-between gap-3">
+            <div className="min-w-0 flex flex-col gap-y-4 "
+                {...listeners} {...attributes} ref={setNodeRef} style={style}
+            >
+                <p className="text-xl font-bold text-slate-600 text-left cursor-pointer"
                     >{task.taskName}
-                </button>
-            <p className="text-slate-500">{task.description}</p>
+                </p>
+                <p className="text-slate-500">{task.description}</p>
             </div>
 
             <div className="flex shrink-0  gap-x-6">
@@ -56,7 +69,8 @@ export default function TaskCard({task, canEdit} : TaskCardProps) {
                         <MenuItems
                             className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                             <MenuItem>
-                                <button type='button' className='block px-3 py-1 text-sm leading-6 text-gray-900'
+                                <button type='button' className='block px-3 py-1 text-sm leading-6 text-gray-900 
+                                cursor-pointer'
                                 onClick={()=> navigate('' + `?viewTask=${task._id}`)}
                                     >Ver Tarea
                                 </button>
@@ -65,13 +79,15 @@ export default function TaskCard({task, canEdit} : TaskCardProps) {
                                 <>
                                     <MenuItem>
                                         <button type='button' 
-                                            className='block px-3 py-1 text-sm leading-6 text-gray-900'
+                                            className='block px-3 py-1 text-sm leading-6 text-gray-900 
+                                            cursor-pointer'
                                             onClick={()=> navigate('' + `?editTask=${task._id}`)}
                                             >Editar Tarea
                                         </button>
                                     </MenuItem> 
                                     <MenuItem>
-                                        <button type='button' className='block px-3 py-1 text-sm leading-6 text-red-500'
+                                        <button type='button' className='block px-3 py-1 text-sm leading-6 text-red-500 
+                                        cursor-pointer'
                                             onClick={()=> mutate({projectId, taskId: task._id})}
                                             >Eliminar Tarea
                                         </button>
