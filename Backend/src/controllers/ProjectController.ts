@@ -50,17 +50,10 @@ export class ProjectController {
 
     static UpadateProject = async (req: Request, res: Response) => {
         try {
-            const project = await Project.findById(req.params.projectId,)
-            if(!project) {
-                return res.status(404).json({error: 'Proyecto no encontrado'})
-            } 
-            if(project.manager.toString() !== req.user.id.toString()) {
-                return res.json({error: 'Falta de permisos'})
-            }
-            project.projectName = req.body.projectName
-            project.clientName = req.body.clientName
-            project.description = req.body.description
-            await project.save()
+            req.project.projectName = req.body.projectName
+            req.project.clientName = req.body.clientName
+            req.project.description = req.body.description
+            await req.project.save()
             return res.send('Proyecto actualizado')
         } catch (error) {
             console.log(error)
@@ -69,14 +62,7 @@ export class ProjectController {
 
     static DeleteProject = async (req: Request, res: Response) => {
         try {
-            const project = await Project.findById(req.params.projectId)
-            if(!project) {
-                return res.status(404).json({error: 'Proyecto no encontrado'})
-            } 
-            if(project.manager.toString() !== req.user.id.toString()) {
-                return res.json({error: 'Falta de permisos'})
-            }
-            await project.deleteOne()
+            await req.project.deleteOne()
             return res.send('Proyecto eliminado')
         } catch (error) {
             console.log(error)

@@ -11,17 +11,19 @@ import { NoteController } from "../controllers/NoteController";
 
 const router = Router()
 
-    //check all routes for authentication
+//check all routes for authentication
 router.use(authenticate)
 
-    //ROUTES FOR PROJECTS
+router.param('projectId', projectExists)
+
+//ROUTES FOR PROJECTS
 router.post('/', 
     body('projectName')
-        .notEmpty().withMessage('El nombre del proyecto es obligatorio'),
+    .notEmpty().withMessage('El nombre del proyecto es obligatorio'),
     body('clientName')
-        .notEmpty().withMessage('El nombre del cliente es obligatorio'),
+    .notEmpty().withMessage('El nombre del cliente es obligatorio'),
     body('description')
-        .notEmpty().withMessage('La descripcion es obligatoria'),
+    .notEmpty().withMessage('La descripcion es obligatoria'),
     handleInputErrors,
     ProjectController.CreateProject
 )
@@ -30,44 +32,42 @@ router.get('/', ProjectController.GetAllProjects)
 
 router.get('/:projectId',
     param('projectId')
-        .isMongoId().withMessage('ID no valido'),
+    .isMongoId().withMessage('ID no valido'),
     handleInputErrors,
-    projectExists,
     ProjectController.GetProjectById
 )
 
 router.put('/:projectId', 
     body('projectName')
-        .notEmpty().withMessage('El nombre del proyecto es obligatorio'),
+    .notEmpty().withMessage('El nombre del proyecto es obligatorio'),
     body('clientName')
-        .notEmpty().withMessage('El nombre del cliente es obligatorio'),
+    .notEmpty().withMessage('El nombre del cliente es obligatorio'),
     body('description')
-        .notEmpty().withMessage('La descripcion es obligatoria'),
+    .notEmpty().withMessage('La descripcion es obligatoria'),
     param('projectId')
-        .isMongoId().withMessage('ID no valido'),
+    .isMongoId().withMessage('ID no valido'),
     handleInputErrors,
-    projectExists,
+    hasAuthorization,
     ProjectController.UpadateProject
 )
 
 router.delete('/:projectId',
     param('projectId')
-        .isMongoId().withMessage('ID no valido'),
+    .isMongoId().withMessage('ID no valido'),
     handleInputErrors,
-    projectExists,
+    hasAuthorization,
     ProjectController.DeleteProject
 )
 
-    //ROUTES FOR TASKS 
-    router.param('projectId', projectExists)
-    router.param('taskId',taskExists )
+//ROUTES FOR TASKS 
+router.param('taskId', taskExists )
 
 router.post('/:projectId/tasks',
     hasAuthorization,
     body('taskName')
-        .notEmpty().withMessage('El nombre de la tarea es obligatoria'),
+    .notEmpty().withMessage('El nombre de la tarea es obligatoria'),
     body('description')
-        .notEmpty().withMessage('La descripcion es obligatoria'),
+    .notEmpty().withMessage('La descripcion es obligatoria'),
     TaskController.CreateTask
 )
 
