@@ -1,0 +1,54 @@
+# UpTask MERN
+
+UpTask MERN es una aplicación web para la gestión de proyectos y tareas, desarrollada con el stack **MERN** (MongoDB, Express, React, Node.js). Permite a equipos organizar proyectos, asignar tareas, colaborar y llevar el seguimiento del avance de cada proyecto.
+
+## Características principales
+
+- **Autenticación de usuarios** (registro, login, confirmación de cuenta, recuperación de contraseña)
+- **Gestión de proyectos** (crear, editar, eliminar, ver detalles)
+- **Gestión de tareas** (crear, editar, eliminar, cambiar estado, asignar responsable)
+- **Gestión de notas** asociadas a tareas
+- **Gestión de equipos** (agregar y buscar miembros)
+- **Drag & Drop** para cambiar el estado de las tareas
+- **Notificaciones** y mensajes de éxito/error
+- **Panel de perfil de usuario** (editar datos y contraseña)
+- **Protección de rutas** y autorización basada en roles
+- **Validaciones en frontend y backend**
+- **Responsive Design**
+
+## Tecnologías usadas
+
+- **Frontend**
+  - [React](https://react.dev/)
+  - [TypeScript](https://www.typescriptlang.org/)
+  - [React Router](https://reactrouter.com/)
+  - [React Query](https://tanstack.com/query/latest)
+  - [Tailwind CSS](https://tailwindcss.com/)
+  - [Sonner](https://sonner.emilkowal.dev/) (notificaciones)
+  - [React Icons](https://react-icons.github.io/react-icons/)
+  - [Vite](https://vitejs.dev/)
+
+- **Backend**
+  - [Node.js](https://nodejs.org/)
+  - [Express](https://expressjs.com/)
+  - [TypeScript](https://www.typescriptlang.org/)
+  - [MongoDB](https://www.mongodb.com/)
+  - [Mongoose](https://mongoosejs.com/)
+  - [JWT](https://jwt.io/) (autenticación)
+  - [Nodemailer](https://nodemailer.com/) (emails de confirmación y recuperación)
+  - [Zod](https://zod.dev/) (validación de datos)
+  - [Mailtrap](https://mailtrap.io/) (testing de emails)
+
+## Estructura del proyecto
+
+- **Frontend:** `/Frontend`
+- **Backend:** `/Backend`
+
+## Instalación y ejecución
+
+1. Clona el repositorio.
+2. Instala dependencias en ambos directorios (`Frontend` y `Backend`).
+3. Configura las variables de entorno en ambos proyectos.
+4. Ejecuta el backend y luego el frontend.
+
+¡UpTask MERN es ideal para equipos que buscan una solución moderna y colaborativa para la gestión de proyectos!
