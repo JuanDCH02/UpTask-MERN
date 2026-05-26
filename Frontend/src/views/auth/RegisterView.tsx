@@ -24,8 +24,8 @@ export default function RegisterView() {
             toast.error(error.message)
         },
         onSuccess: (data) => {
-            toast.success(data) 
-            reset
+            toast.success(data)
+            reset()
         },
     })
 

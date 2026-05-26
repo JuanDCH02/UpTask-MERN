@@ -16,6 +16,7 @@ export default function AuthLayout() {
                 </div>
             </div>
             <Toaster
+                richColors
                 swipeDirections={['right', 'bottom']}
                 position="bottom-right"
                 duration={3000}
