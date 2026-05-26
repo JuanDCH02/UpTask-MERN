@@ -25,8 +25,9 @@ export default function NoteDetail({note} : NoteDetailProps) {
     const queryClient = useQueryClient()
     const {mutate} = useMutation({
         mutationFn:deleteNote,
-        onError:(error)=> {
-            toast.error(error.message)
+        onError:(error: any)=> {
+            const msg = error instanceof Error ? error.message : String(error)
+            toast.error(msg)
         },
         onSuccess:(data)=> {
             toast.success(data)
