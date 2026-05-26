@@ -41,8 +41,8 @@ export default function DeleteProjectModal() {
             navigate('', { replace: true })
         },
     })
-    const handleForm = async (formData: string) => {
-        await checkUserPassword.mutateAsync(formData)
+    const handleForm = async (formData: { password: string }) => {
+        await checkUserPassword.mutateAsync(formData.password)
         await mutateAsync(deleteProjectId)
     }
 

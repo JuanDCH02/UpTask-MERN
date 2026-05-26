@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle, Description } from '@headlessui/react';
+import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@headlessui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import type { Task, TaskFormData } from '@/types/index';

@@ -19,7 +19,7 @@ export default function NoteDetail({note} : NoteDetailProps) {
     const params = useParams()
     const projectId = params.projectId!
 
-    const {data, isError} = useAuth()
+    const {data} = useAuth()
     const canDelete = useMemo(()=> data?._id === note.createdBy._id, [data])
 
     const queryClient = useQueryClient()
