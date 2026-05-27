@@ -1,22 +1,22 @@
 # UpTask MERN
 
-UpTask MERN es una aplicación web para la gestión de proyectos y tareas, desarrollada con el stack **MERN** (MongoDB, Express, React, Node.js). Permite a equipos organizar proyectos, asignar tareas, colaborar y llevar el seguimiento del avance de cada proyecto.
+UpTask MERN es una aplicacion web para la gestion de proyectos y tareas, desarrollada con el stack **MERN** (MongoDB, Express, React, Node.js). Permite a equipos organizar proyectos, asignar tareas, colaborar y seguir el avance de cada proyecto.
 
-## Características principales
+## Caracteristicas principales
 
-- **Autenticación de usuarios** (registro, login, confirmación de cuenta, recuperación de contraseña)
-- **Gestión de proyectos** (crear, editar, eliminar, ver detalles)
-- **Gestión de tareas** (crear, editar, eliminar, cambiar estado, asignar responsable)
-- **Gestión de notas** asociadas a tareas
-- **Gestión de equipos** (agregar y buscar miembros)
+- **Autenticacion de usuarios** (registro, login y recuperacion de contrasena)
+- **Gestion de proyectos** (crear, editar, eliminar, ver detalles)
+- **Gestion de tareas** (crear, editar, eliminar, cambiar estado, asignar responsable)
+- **Gestion de notas** asociadas a tareas
+- **Gestion de equipos** (agregar y buscar miembros)
 - **Drag & Drop** para cambiar el estado de las tareas
-- **Notificaciones** y mensajes de éxito/error
-- **Panel de perfil de usuario** (editar datos y contraseña)
-- **Protección de rutas** y autorización basada en roles
+- **Notificaciones** y mensajes de exito o error
+- **Panel de perfil de usuario** (editar datos y contrasena)
+- **Proteccion de rutas** y autorizacion basada en roles
 - **Validaciones en frontend y backend**
 - **Responsive Design**
 
-## Tecnologías usadas
+## Tecnologias usadas
 
 - **Frontend**
   - [React](https://react.dev/)
@@ -34,9 +34,9 @@ UpTask MERN es una aplicación web para la gestión de proyectos y tareas, desar
   - [TypeScript](https://www.typescriptlang.org/)
   - [MongoDB](https://www.mongodb.com/)
   - [Mongoose](https://mongoosejs.com/)
-  - [JWT](https://jwt.io/) (autenticación)
-  - [Nodemailer](https://nodemailer.com/) (emails de confirmación y recuperación)
-  - [Zod](https://zod.dev/) (validación de datos)
+  - [JWT](https://jwt.io/) (autenticacion)
+  - [Nodemailer](https://nodemailer.com/) (emails de recuperacion de contrasena)
+  - [Zod](https://zod.dev/) (validacion de datos)
   - [Mailtrap](https://mailtrap.io/) (testing de emails)
 
 ## Estructura del proyecto
@@ -44,11 +44,11 @@ UpTask MERN es una aplicación web para la gestión de proyectos y tareas, desar
 - **Frontend:** `/Frontend`
 - **Backend:** `/Backend`
 
-## Instalación y ejecución
+## Instalacion y ejecucion
 
 1. Clona el repositorio.
 2. Instala dependencias en ambos directorios (`Frontend` y `Backend`).
 3. Configura las variables de entorno en ambos proyectos.
 4. Ejecuta el backend y luego el frontend.
 
-¡UpTask MERN es ideal para equipos que buscan una solución moderna y colaborativa para la gestión de proyectos!
+UpTask MERN es ideal para equipos que buscan una solucion moderna y colaborativa para la gestion de proyectos.

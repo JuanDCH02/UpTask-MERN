@@ -1,4 +1,4 @@
-import mongoose, {Schema, Document, Types} from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface IUser extends Document {
     email: string
@@ -7,12 +7,12 @@ export interface IUser extends Document {
     confirmed: boolean
 }
 
-const userSchema : Schema = new Schema({
-    email: { type: String, required:true, lowercase: true, unique:true },
-    password: { type: String, required:true },
-    name: { type: String, required:true },
-    confirmed: { type: Boolean, default:false },
+const userSchema: Schema = new Schema({
+    email: { type: String, required: true, lowercase: true, unique: true },
+    password: { type: String, required: true },
+    name: { type: String, required: true },
+    confirmed: { type: Boolean, default: true },
 })
 
-const User = mongoose.model<IUser>('User', userSchema)
+const User = mongoose.model<IUser>("User", userSchema)
 export default User;
