@@ -1,17 +1,15 @@
 import api from "@/lib/axios";
-import { isAxiosError } from "axios";
 import { teamMembersSchema, type Project, type TeamMember, type TeamMemberForm } from "../types";
+import { ensureResponseData, throwApiError } from "./apiError";
 
 export async function findUserbyEmail({projectId, formData}:{projectId:Project['_id'],
     formData: TeamMemberForm}) {
 
     try {
         const {data} = await api.post(`/projects/${projectId}/team/find`, formData)
-        return data
+        return ensureResponseData(data, "El servidor no devolvio una respuesta valida.")
     } catch (error) {
-        if(isAxiosError(error) && error.response){
-            throw new Error (error.response.data.error)
-        }
+        throwApiError(error)
     }
 }
 export async function addUserToProject({projectId, id} : {projectId:Project['_id'],
@@ -19,11 +17,9 @@ export async function addUserToProject({projectId, id} : {projectId:Project['_id
 
     try {
         const {data} = await api.post<string>(`/projects/${projectId}/team`, {id})
-        return data
+        return ensureResponseData(data, "El servidor no devolvio una respuesta valida.")
     } catch (error) {
-        if(isAxiosError(error) && error.response){
-            throw new Error (error.response.data.error)
-        }
+        throwApiError(error)
     }
 }
 export async function getProjectTeam(projectId : Project['_id']) {
@@ -32,10 +28,9 @@ export async function getProjectTeam(projectId : Project['_id']) {
         const {data} = await api.get(`/projects/${projectId}/team`)
         const res = teamMembersSchema.safeParse(data)
         if(res.success) return res.data
+        throw new Error("La respuesta del equipo no tiene el formato esperado.")
     } catch (error) {
-        if(isAxiosError(error) && error.response){
-            throw new Error (error.response.data.error)
-        }
+        throwApiError(error)
     }
 }
 export async function removeUserFromProject({projectId, id} : {projectId:Project['_id'],
@@ -43,10 +38,8 @@ export async function removeUserFromProject({projectId, id} : {projectId:Project
 
     try {
         const {data} = await api.delete<string>(`/projects/${projectId}/team/${id}`)
-        return data
+        return ensureResponseData(data, "El servidor no devolvio una respuesta valida.")
     } catch (error) {
-        if(isAxiosError(error) && error.response){
-            throw new Error (error.response.data.error)
-        }
+        throwApiError(error)
     }
 }

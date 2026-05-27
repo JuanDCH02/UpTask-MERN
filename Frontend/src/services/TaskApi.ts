@@ -1,6 +1,6 @@
 import api from "@/lib/axios";
-import { isAxiosError } from "axios";
 import { type TaskFormData, type Project, type Task, TaskSchema } from "../types";
+import { ensureResponseData, throwApiError } from "./apiError";
 
 type TaskAPi = {
     formData: TaskFormData,
@@ -14,11 +14,9 @@ export async function createTask({formData, projectId}:
     try {
         const url = (`/projects/${projectId}/tasks`)
         const {data} = await api.post<string>(url, formData)
-        return data 
+        return ensureResponseData(data, "El servidor no devolvio una respuesta valida.")
     } catch (error) {
-        if(isAxiosError(error) && error.response){
-            throw new Error (error.response.data.error)
-        }
+        throwApiError(error)
     }
 }
 export async function getTaskbyId({projectId, taskId}: 
@@ -28,10 +26,9 @@ export async function getTaskbyId({projectId, taskId}:
         const {data} = await api(url)
         const res = TaskSchema.safeParse(data)
         if(res.success) return res.data
+        throw new Error("La respuesta de la tarea no tiene el formato esperado.")
     } catch (error) {
-        if(isAxiosError(error) && error.response){
-            throw new Error (error.response.data.error)
-        }
+        throwApiError(error)
     }
 }
 export async function updateTask({projectId, taskId, formData}: 
@@ -39,11 +36,9 @@ export async function updateTask({projectId, taskId, formData}:
     try {
         const url = `projects/${projectId}/tasks/${taskId}`
         const {data} = await api.put<string>(url, formData)
-        return data
+        return ensureResponseData(data, "El servidor no devolvio una respuesta valida.")
     } catch (error) {
-        if(isAxiosError(error) && error.response){
-            throw new Error (error.response.data.error)
-        }
+        throwApiError(error)
     }
 }
 export async function deleteTask({projectId, taskId}: 
@@ -51,11 +46,9 @@ export async function deleteTask({projectId, taskId}:
     try {
         const url = `projects/${projectId}/tasks/${taskId}`
         const {data} = await api.delete<string>(url)
-        return data
+        return ensureResponseData(data, "El servidor no devolvio una respuesta valida.")
     } catch (error) {
-        if(isAxiosError(error) && error.response){
-            throw new Error (error.response.data.error)
-        }
+        throwApiError(error)
     }
 }
 export async function updateStatusTask({projectId, taskId, status}: 
@@ -63,10 +56,8 @@ export async function updateStatusTask({projectId, taskId, status}:
     try {
         const url = `projects/${projectId}/tasks/${taskId}/status`
         const {data} = await api.post<string>(url, {status})
-        return data
+        return ensureResponseData(data, "El servidor no devolvio una respuesta valida.")
     } catch (error) {
-        if(isAxiosError(error) && error.response){
-            throw new Error (error.response.data.error)
-        }
+        throwApiError(error)
     }
 }
